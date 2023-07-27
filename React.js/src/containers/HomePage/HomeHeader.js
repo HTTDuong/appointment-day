@@ -16,7 +16,7 @@ class HomeHeader extends Component {
 
     render() {
         let language = this.props.language;
-
+        
         return (
             <React.Fragment>
                 <div className='home-header-container'>
@@ -50,10 +50,10 @@ class HomeHeader extends Component {
                                 <i className="fas fa-question-circle"></i>
                                 <FormattedMessage id="homeheader.support" />
                             </div>
-                            <div className={language === LANGUAGES.VI? 'language-vi active': 'language-vi'}>
+                            <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}>
                                 <span onClick={() => this.changeLanguage(LANGUAGES.VI)}>VN</span>
                             </div>
-                            <div className={language === LANGUAGES.EN? 'language-en active': 'language-en'}>
+                            <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}>
                                 <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span>
                             </div>
                         </div>
@@ -106,6 +106,7 @@ class HomeHeader extends Component {
 const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
         language: state.app.language,
         //inject
     };

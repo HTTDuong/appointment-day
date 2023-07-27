@@ -17,9 +17,9 @@ class About extends Component {
                         <iframe width="100%" height="400"
                             src="https://www.youtube.com/embed/Mu6-h8pqZvA"
                             title="Me And My Mom, Who Will Win In The End?"
-                            frameborder="0"
+                            frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen>
+                            allowFullScreen>
                         </iframe>
                     </div>
                     <div className='content-right'>

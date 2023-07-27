@@ -24,6 +24,10 @@
 
     .languages{
 
+        .welcome{
+            margin-right: 10px;
+        }
+        
         .language-vi{
             cursor: pointer;
             
@@ -43,5 +47,6 @@
                 color: #04AA6D;
             }
         }
+
     }
 }
