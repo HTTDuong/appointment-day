@@ -25,27 +25,27 @@
         color: white;
     }
 
-    .btn-edit{
-        width: 50px;
-        border: none;
-        outline: none;
-        background: transparent;
-        color: orange;
+}
+.btn-edit{
+    width: 50px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: orange;
 
-        &:hover{
-            background: transparent;
-        }
+    &:hover{
+        background: transparent;
     }
-    .btn-delete{
-        width: 50px;
-        border: none;
-        outline: none;
-        background: transparent;
-        color: red;
+}
+.btn-delete{
+    width: 50px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: red;
 
-        &:hover{
-            background: transparent;
-        }
+    &:hover{
+        background: transparent;
     }
 }
 
