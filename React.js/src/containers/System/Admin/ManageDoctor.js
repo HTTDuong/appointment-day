@@ -109,7 +109,7 @@ class ManageDoctor extends Component {
     }
 
     render() {
-        let {hasOldData} = this.state;
+        let { hasOldData } = this.state;
         return (
             <div className='manage-doctor-container'>
                 <div className='manage-doctor-title'>
@@ -147,7 +147,7 @@ class ManageDoctor extends Component {
                 <button className={hasOldData === true ? 'save-content-doctor' : 'create-content-doctor'}
                     onClick={() => this.handleSaveContentMarkdown()}
                 >
-                    {hasOldData === true ? 
+                    {hasOldData === true ?
                         <span>Lưu thông tin</span> : <span>Tạo thông tin</span>
                     }
                 </button>
@@ -166,7 +166,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchAllDoctors: (id) => dispatch(actions.fetchAllDoctors()),
+        fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
         saveDetailDoctor: (data) => dispatch(actions.saveDetailDoctor(data))
     };
 };

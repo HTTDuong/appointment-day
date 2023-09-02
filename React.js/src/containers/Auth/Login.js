@@ -36,21 +36,21 @@ class Login extends Component {
         this.setState({
             errMessage: ''
         })
-        
-        try{
+
+        try {
             let data = await handleLoginApi(this.state.username, this.state.password)
-            if(data && data.errCode !== 0){
+            if (data && data.errCode !== 0) {
                 this.setState({
                     errMessage: data.message
                 })
             }
-            if(data && data.errCode === 0){
+            if (data && data.errCode === 0) {
                 this.props.userLoginSuccess(data.user)
                 console.log('login succeed')
             }
-        } catch(error){
-            if(error.response){
-                if(error.response.data){
+        } catch (error) {
+            if (error.response) {
+                if (error.response.data) {
                     this.setState({
                         errMessage: error.response.data.message
                     })
@@ -63,6 +63,12 @@ class Login extends Component {
         this.setState({
             isShowPassword: !this.state.isShowPassword
         })
+    }
+
+    handleKeyDown = (event) => {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+            this.handleLogin();
+        }
     }
 
 
@@ -91,13 +97,14 @@ class Login extends Component {
                                     className='form-control'
                                     placeholder='Enter your password'
                                     onChange={(event) => this.handleOnChangePassword(event)}
+                                    onKeyDown={(event) => this.handleKeyDown(event)}
                                 />
                                 <span onClick={() => this.handleShowHidePassword()}>
                                     <i className={this.state.isShowPassword ? "fas fa-eye" : "fas fa-eye-slash"}></i>
                                 </span>
                             </div>
                         </div>
-                        <div className='col-12' style={{color: 'red'}}>
+                        <div className='col-12' style={{ color: 'red' }}>
                             {this.state.errMessage}
                         </div>
                         <div className='col-12'>
