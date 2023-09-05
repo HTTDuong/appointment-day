@@ -1,12 +1,12 @@
-.doctor-detail-container{
+.doctor-detail-container {
     height: 500px;
     margin-top: 65px;
-    
-    .intro-doctor{
+
+    .intro-doctor {
         display: flex;
         margin: 0 100px;
 
-        .content-left{
+        .content-left {
             width: 20%;
             background: center no-repeat;
             width: 120px;
@@ -14,26 +14,41 @@
             border-radius: 50%;
             margin: 10px 20px;
         }
-        
-        .content-right{
+
+        .content-right {
             width: 80%;
             display: flex;
             flex-direction: column;
             padding-left: 10px;
 
-            .up{
+            .up {
                 font-size: 20px;
                 font-weight: 600;
                 padding-top: 15px;
             }
 
-            .down{
+            .down {
                 padding-top: 10px;
             }
         }
     }
 
-    .detail-infor-doctor{
+    .schedule-doctor {
+        margin: 0 100px;
+        display: flex;
+        padding: 10px 0;
+        min-height: 200px;
+
+        .content-left {
+            width: 50%;
+        }
+
+        .content-right {
+            width: 50%;
+        }
+    }
+
+    .detail-infor-doctor {
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
         padding-top: 20px;
@@ -42,12 +57,12 @@
         background: #F9F9F9;
         padding: 10px 100px;
 
-        img{
+        img {
             width: 100%;
         }
     }
 
-    .comment-doctor{
+    .comment-doctor {
         height: 50px;
     }
 }
