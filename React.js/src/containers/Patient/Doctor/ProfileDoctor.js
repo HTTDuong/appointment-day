@@ -41,7 +41,7 @@ class ProfileDoctor extends Component {
 
         }
         if (this.props.doctorId !== prevProps.doctorId) {
-            // this.getInforDoctor(this.props.doctorId)
+            this.getInforDoctor(this.props.doctorId)
         }
 
     }

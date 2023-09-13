@@ -31,50 +31,48 @@
     }
 }
 
-.slick-disabled{
+.slick-disabled {
     display: none !important;
 }
 
-.section-share{
-    &.section-specialty{
+.section-share {
+    &.section-specialty {
         background: #f5f5f5;
     }
 
-    &.section-about{
+    &.section-about {
         height: 500px !important;
         border-top: 1px solid #f5f5f5;
         border-bottom: 1px solid #f5f5f5;
     }
 
-    .section-body{
+    .section-body {
 
-        .section-customize{
+        .section-customize {
 
-            .bg-image{
+            .bg-image {
                 width: 290px;
                 height: 150px;
-                background: url(../../assets/specialty/san-phu-khoa.jpg);
                 background-position: center center;
                 background-repeat: no-repeat;
                 background-size: cover;
                 background-color: #eee;
-                
-                &.section-specialty{
-                    background-image: url(../../assets/specialty/san-phu-khoa.jpg);
-                    
-                }
-                
-                &.section-medical-facility{
+
+                &.section-specialty {}
+
+                &.section-medical-facility {
                     background-image: url(../../assets/medical-facility/logo-thucuc.png);
 
                 }
-                &.section-outstanding-doctor{
+
+                &.section-outstanding-doctor {
                     // background-image: url(../../assets/outstanding-doctor/doctor-check.jpg);
                     width: 120px;
                     height: 120px;
                     border-radius: 50%;
                 }
-                &.section-handbook{
+
+                &.section-handbook {
                     background-image: url(../../assets/handbook/bs-nha-khoa-hn-1.jpg);
 
                 }
@@ -84,25 +82,25 @@
     }
 }
 
-.section-share{
+.section-share {
     height: 330px;
-    
-    .section-container{
+
+    .section-container {
         margin: 0 150px;
         display: flex;
         flex-direction: column;
 
-        .section-header{
+        .section-header {
             height: 60px;
             margin-bottom: 20px;
             padding-top: 30px;
 
-            .title-section{
+            .title-section {
                 font-size: 22px;
                 font-weight: 600;
             }
 
-            .btn-section{
+            .btn-section {
                 float: right;
                 padding: 10px 15px;
                 border: none;
@@ -113,7 +111,7 @@
                 cursor: pointer;
                 text-transform: uppercase;
 
-                &:hover{
+                &:hover {
                     color: #fff;
                     background: #f7d800;
                 }
@@ -123,54 +121,56 @@
 
 }
 
-.section-outstanding-doctor{
-    .section-customize{
+.section-outstanding-doctor {
+    .section-customize {
         padding: 5px;
         cursor: pointer;
 
-        .customize-border{
-            border: 1px solid orange;
+        .customize-border {
+            border: 1px solid rgb(192, 192, 192);
             padding: 20px;
         }
     }
 
-    .outer-bg{
+    .outer-bg {
         display: flex;
         justify-content: center;
         margin-bottom: 10px;
     }
 }
 
-.home-footer{
+.home-footer {
     text-align: center;
     padding-top: 8px;
 
-    a{
+    a {
         text-decoration: unset;
     }
 
 }
 
-.section-about{
+.section-about {
     padding: 0 100px;
-    .section-about-header{
+
+    .section-about-header {
         padding: 20px 10px;
         font-size: 22px;
         font-weight: 600;
     }
 
-    .section-about-content{
+    .section-about-content {
         display: flex;
         gap: 15px;
         width: 100%;
 
-        .content-left{
+        .content-left {
             width: 60%;
         }
-        .content-right{
+
+        .content-right {
             width: 40%;
 
-            p{
+            p {
                 text-align: justify;
                 font-style: italic;
                 padding-top: 15px;
@@ -178,9 +178,3 @@
         }
     }
 }
-
-
-
-
-
-

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Slider from "react-slick";
 import * as actions from "../../../store/actions";
-import {LANGUAGES} from "../../../utils";
+import { LANGUAGES } from "../../../utils";
 import { withRouter } from 'react-router';
 
 class OutStandingDoctor extends Component {
@@ -28,22 +28,23 @@ class OutStandingDoctor extends Component {
     }
 
     handleViewDetailDoctor = (doctor) => {
-        console.log("Thuyduong view infor: ", doctor);
-        this.props.history.push(`/detail-doctor/${doctor.id}`)
+        if (this.props.history) {
+            this.props.history.push(`/detail-doctor/${doctor.id}`)
+        }
     }
 
     render() {
         let arrDoctors = this.state.arrDoctors;
         // arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors)
-        let {language} = this.props;
+        let { language } = this.props;
         return (
             <div className='section-share section-outstanding-doctor section-specialty'>
                 <div className='section-container'>
                     <div className='section-header'>
                         <span className='title-section'>
-                            <FormattedMessage id="homepage.outstanding-doctor"/>
+                            <FormattedMessage id="homepage.outstanding-doctor" />
                         </span>
-                        <button className='btn-section'><FormattedMessage id="homepage.more-info"/></button>
+                        <button className='btn-section'><FormattedMessage id="homepage.more-info" /></button>
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
@@ -51,7 +52,7 @@ class OutStandingDoctor extends Component {
                             {arrDoctors && arrDoctors.length > 0
                                 && arrDoctors.map((item, index) => {
                                     let imageBase64 = '';
-                                    if(item.image){
+                                    if (item.image) {
                                         imageBase64 = new Buffer(item.image, 'base64').toString('binary');
                                     }
                                     let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
@@ -61,7 +62,7 @@ class OutStandingDoctor extends Component {
                                             <div className='customize-border'>
                                                 <div className='outer-bg'>
                                                     <div className='bg-image section-outstanding-doctor'
-                                                        style={{backgroundImage: `url(${imageBase64})`}}
+                                                        style={{ backgroundImage: `url(${imageBase64})` }}
                                                     ></div>
                                                 </div>
                                                 <div className='position text-center'>

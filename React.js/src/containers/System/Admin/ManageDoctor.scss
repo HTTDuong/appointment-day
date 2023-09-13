@@ -1,7 +1,7 @@
-.manage-doctor-container{
+.manage-doctor-container {
     padding: 5px;
 
-    .manage-doctor-title{
+    .manage-doctor-title {
         text-align: center;
         margin: 15px 0;
         font-size: 20px;
@@ -9,7 +9,7 @@
         font-weight: 600;
     }
 
-    .save-content-doctor{
+    .save-content-doctor {
         margin-top: 20px;
         margin-bottom: 30px;
         border-radius: 3px;
@@ -19,12 +19,12 @@
         background-color: orange;
         cursor: pointer;
 
-        &:hover{
+        &:hover {
             opacity: 0.9;
         }
     }
 
-    .create-content-doctor{
+    .create-content-doctor {
         margin-top: 20px;
         margin-bottom: 30px;
         border-radius: 3px;
@@ -35,22 +35,22 @@
         color: white;
         cursor: pointer;
 
-        &:hover{
+        &:hover {
             opacity: 0.9;
         }
     }
 
-    .more-infor{
+    .more-infor {
         display: flex;
         gap: 15px;
         padding-bottom: 15px;
 
-        .content-left{
-            width: 40%;
+        .content-left {
+            width: 35%;
         }
 
-        .content-right{
-            width: 60%;
+        .content-right {
+            width: 65%;
         }
     }
 }
