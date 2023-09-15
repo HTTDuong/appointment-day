@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import "./Specialty.scss";
 import Slider from "react-slick";
 import { getAllSpectialty } from '../../../services/userService';
-import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
+import { withRouter } from 'react-router';
 
 
 class Specialty extends Component {
