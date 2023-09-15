@@ -12,7 +12,7 @@ let handleUserLogin = (email, password) => {
             if (isExist) {
                 //user already exist
                 let user = await db.User.findOne({
-                    attributes: ['email', 'roleId', 'password', 'firstName', 'lastName'],
+                    attributes: ['id', 'email', 'roleId', 'password', 'firstName', 'lastName'],
                     where: { email: email },
                     raw: true,
                 });
@@ -99,7 +99,7 @@ let createNewUser = (data) => {
                     errCode: 1,
                     errMessage: 'Your email is already used. Please try another email!'
                 })
-            } else{
+            } else {
                 let hashPasswordFromBcrypt = await hashUserPassword(data.password);
                 await db.User.create({
                     email: data.email,
@@ -142,13 +142,13 @@ let deleteUser = (userId) => {
             where: { id: userId.id }
         })
 
-        if(!foundUser){
+        if (!foundUser) {
             resolve({
                 errCode: 2,
                 errMessage: `User doesn't exist`
             })
         }
-        
+
         await db.User.destroy({
             where: { id: userId.id }
         })
@@ -161,9 +161,9 @@ let deleteUser = (userId) => {
 }
 
 let updateUserData = (data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
-            if(!data.id || !data.roleId || !data.positionId || !data.gender){
+            if (!data.id || !data.roleId || !data.positionId || !data.gender) {
                 resolve({
                     errCode: 2,
                     message: 'Missing required parameters!'
@@ -173,7 +173,7 @@ let updateUserData = (data) => {
                 where: { id: data.id },
                 raw: false
             })
-            if(user){
+            if (user) {
                 user.firstName = data.firstName;
                 user.lastName = data.lastName;
                 user.address = data.address;
@@ -181,7 +181,7 @@ let updateUserData = (data) => {
                 user.positionId = data.positionId;
                 user.gender = data.gender;
                 user.phoneNumber = data.phoneNumber;
-                if(data.avatar){
+                if (data.avatar) {
                     user.image = data.avatar;
                 }
 
@@ -196,7 +196,7 @@ let updateUserData = (data) => {
                     errCode: 0,
                     message: 'Update user succeed!'
                 });
-            } else{
+            } else {
                 resolve({
                     errCode: 1,
                     message: 'User not found!'
@@ -211,15 +211,15 @@ let updateUserData = (data) => {
 let getAllCodeService = (typeInput) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if(!typeInput){
+            if (!typeInput) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameters!'
                 })
-            } else{
+            } else {
                 let res = {};
                 let allcode = await db.Allcode.findAll({
-                    where: {type: typeInput}
+                    where: { type: typeInput }
                 });
                 res.errCode = 0;
                 res.data = allcode;
