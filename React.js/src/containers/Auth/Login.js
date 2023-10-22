@@ -6,7 +6,7 @@ import * as actions from "../../store/actions";
 import './Login.scss';
 import { FormattedMessage } from 'react-intl';
 import { handleLoginApi } from '../../services/userService';
-
+import imgLogin from '../../assets/app-service-1.png';
 
 class Login extends Component {
     constructor(props) {
@@ -46,7 +46,7 @@ class Login extends Component {
             }
             if (data && data.errCode === 0) {
                 this.props.userLoginSuccess(data.user)
-                console.log('login succeed')
+                // console.log('login succeed')
             }
         } catch (error) {
             if (error.response) {
@@ -123,6 +123,9 @@ class Login extends Component {
                             <i className="fab fa-facebook-f facebook"></i>
                         </div>
                     </div>
+                </div>
+                <div className='img-login'>
+                    <img className='img-login-src' src={imgLogin} />
                 </div>
             </div>
         )

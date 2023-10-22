@@ -91,7 +91,7 @@ class UserRedux extends Component {
         let file = data[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
-            
+
             let objectUrl = URL.createObjectURL(file);
             this.setState({
                 previewImgURL: objectUrl,
@@ -110,10 +110,10 @@ class UserRedux extends Component {
     handleSaveUser = () => {
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
-        
-        let {action} = this.state;
-        
-        if(action === CRUD_ACTIONS.CREATE){
+
+        let { action } = this.state;
+
+        if (action === CRUD_ACTIONS.CREATE) {
             //fire redux create user
             this.props.createNewUser({
                 email: this.state.email,
@@ -129,7 +129,7 @@ class UserRedux extends Component {
             })
         }
 
-        if(action === CRUD_ACTIONS.EDIT){
+        if (action === CRUD_ACTIONS.EDIT) {
             //fire redux edit user
             this.props.editAUserRedux({
                 id: this.state.userEditId,
@@ -174,7 +174,7 @@ class UserRedux extends Component {
 
     handleEditUserFromParent = (user) => {
         let imageBase64 = '';
-        if(user.image){
+        if (user.image) {
             imageBase64 = new Buffer(user.image, 'base64').toString('binary');
         }
 
@@ -211,12 +211,11 @@ class UserRedux extends Component {
         return (
             <div className='user-redux-container'>
                 <div className='title'>
-                    Learn React-Redux
+                    <div className='col-12 my-3'><FormattedMessage id="manage-user.add" /></div>
                 </div>
                 <div className="user-redux-body" >
                     <div className='container'>
                         <div className='row'>
-                            <div className='col-12 my-3'><FormattedMessage id="manage-user.add" /></div>
                             <div className='col-12'>{isGetGenders === true ? 'Loading genders' : ''}</div>
 
                             <div className='col-3'>
@@ -329,16 +328,16 @@ class UserRedux extends Component {
                                 </div>
                             </div>
                             <div className='col-12 my-3'>
-                                <button className={this.state.action === CRUD_ACTIONS.EDIT ? 'btn btn-warning' : 'btn btn-primary' } 
+                                <button className={this.state.action === CRUD_ACTIONS.EDIT ? 'btn btn-warning' : 'btn btn-primary'}
                                     onClick={() => this.handleSaveUser()}
                                 >
-                                    {this.state.action === CRUD_ACTIONS.EDIT ? 
-                                    <FormattedMessage id="manage-user.edit" /> : 
-                                    <FormattedMessage id="manage-user.save" /> } 
+                                    {this.state.action === CRUD_ACTIONS.EDIT ?
+                                        <FormattedMessage id="manage-user.edit" /> :
+                                        <FormattedMessage id="manage-user.save" />}
                                 </button>
                             </div>
                             <div className='col-12 mb-5'>
-                                <TableManageUser 
+                                <TableManageUser
                                     handleEditUserFromParentKey={this.handleEditUserFromParent}
                                     action={this.state.action}
                                 />

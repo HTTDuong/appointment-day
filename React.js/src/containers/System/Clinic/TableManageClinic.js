@@ -1,23 +1,11 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import './TableManageUser.scss';
+import './TableManageClinic.scss';
 import * as actions from "../../../store/actions";
 
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
-// import style manually
-import 'react-markdown-editor-lite/lib/index.css';
 
-// Initialize a markdown parser
-const mdParser = new MarkdownIt(/* Markdown-it options */);
-
-// Finish!
-function handleEditorChange({ html, text }) {
-    console.log('handleEditorChange', html, text);
-}
-
-class TableManageUser extends Component {
+class TableManageClinic extends Component {
 
     constructor(props) {
         super(props);
@@ -27,47 +15,44 @@ class TableManageUser extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchUserRedux();
+        this.props.fetchAllClinic();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.listUsers !== this.props.listUsers) {
+        if (prevProps.listClinics !== this.props.listClinics) {
             this.setState({
-                userRedux: this.props.listUsers
+                userRedux: this.props.listClinics
             })
         }
     }
 
     handleDeleteUser = (user) => {
-        this.props.deleteAUserRedux(user.id);
+        // console.log(this.props)
+        this.props.deleteAClinic(user.id);
     }
 
-    handleEditUser = (user) => {
-        this.props.handleEditUserFromParentKey(user)
+    handleEditUser = (clinic) => {
+        this.props.handleEditUserFromParentKey(clinic)
     }
 
     render() {
-        // console.log('hoidanit check all users ', this.props.listUsers)
-        let arrUsers = this.state.userRedux;
+        let arrClinics = this.state.userRedux;
+        // console.log("ThuyDuong", arrClinics)
 
         return (
             <React.Fragment>
-                <table id="TableManageUser">
+                <table id="TableManageClinic">
                     <tbody>
                         <tr>
-                            <th>Email</th>
-                            <th>First name</th>
-                            <th>Last name</th>
+                            <th>Name</th>
                             <th>Address</th>
                             <th>Action</th>
                         </tr>
-                        {arrUsers && arrUsers.length > 0
-                            && arrUsers.map((item, index) => {
+                        {arrClinics && arrClinics.length > 0
+                            && arrClinics.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.email}</td>
-                                        <td>{item.firstName}</td>
-                                        <td>{item.lastName}</td>
+                                        <td>{item.name}</td>
                                         <td>{item.address}</td>
                                         <td>
                                             <button className='btn-edit'
@@ -85,7 +70,6 @@ class TableManageUser extends Component {
                     </tbody>
                 </table>
 
-                {/* <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} /> */}
             </React.Fragment>
         );
     }
@@ -94,15 +78,15 @@ class TableManageUser extends Component {
 
 const mapStateToProps = state => {
     return {
-        listUsers: state.admin.users
+        listClinics: state.admin.clinics
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        deleteAUserRedux: (id) => dispatch(actions.deleteAUser(id))
+        fetchAllClinic: () => dispatch(actions.fetchAllClinic()),
+        deleteAClinic: (id) => dispatch(actions.deleteAClinic(id))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableManageUser);
+export default connect(mapStateToProps, mapDispatchToProps)(TableManageClinic);

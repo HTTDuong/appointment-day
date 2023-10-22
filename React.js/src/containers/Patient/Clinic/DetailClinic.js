@@ -6,7 +6,7 @@ import HomeHeader from '../../HomePage/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
-import { getAllDetailClinicById, getAllCodeService } from '../../../services/userService';
+import { getAllDetailClinicById } from '../../../services/userService';
 import _ from 'lodash';
 import { LANGUAGES } from '../../../utils';
 
@@ -58,7 +58,6 @@ class DetailClinic extends Component {
 
     render() {
         let { arrDoctorId, dataDetailClinic } = this.state;
-        console.log("check state: ", this.state)
 
         let { language } = this.props;
         return (
@@ -69,7 +68,7 @@ class DetailClinic extends Component {
                         {dataDetailClinic && !_.isEmpty(dataDetailClinic)
                             &&
                             <>
-                                <div>{dataDetailClinic.name}</div>
+                                <h3>{dataDetailClinic.name}</h3>
                                 <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.descriptionHTML }}>
 
                                 </div>

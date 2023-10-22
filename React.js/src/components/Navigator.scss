@@ -13,7 +13,7 @@
     .menu-group {
         &:hover {
             cursor: pointer;
-            background-color: darken($colormain, 5);
+            background-color: darken(#4e9f8f, 5);
         }
 
         .menu-group-name {
@@ -84,9 +84,10 @@
                 }
 
                 &.active {
-                    a{
+                    a {
                         color: orange !important;
                     }
+
                     background-color: #ededed;
                 }
 

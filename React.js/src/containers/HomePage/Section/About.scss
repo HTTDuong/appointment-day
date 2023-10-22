@@ -1,0 +1,66 @@
+.section-header {
+    margin-bottom: 60px;
+
+    h2 {
+        font-size: 26px;
+        margin-bottom: 0;
+        font-weight: 500;
+    }
+
+    .sub-title {
+        color: #757575;
+        font-size: 16px;
+        max-width: 600px;
+        margin: 15px auto 0;
+    }
+}
+
+.box_feat {
+    padding: 165px 45px 20px 45px;
+    text-align: center;
+    position: relative;
+
+    span {
+        position: absolute;
+        top: 50%;
+        right: -48px;
+        margin: -42px 0 0 0;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 2px solid #ededed;
+        background: #fff url(../../../assets/arrow-gray-1.svg) no-repeat center center;
+        display: block;
+        z-index: 10;
+    }
+
+}
+
+.box_feat#step_1 {
+    background: #fff url(../../../assets/icon-step-1.svg) no-repeat center 45px;
+}
+
+.box_feat#step_2 {
+    background: #fff url(../../../assets/icon-step-2.svg) no-repeat center 45px;
+}
+
+.box_feat#step_3 {
+    background: #fff url(../../../assets/icon-step-3.svg) no-repeat center 45px;
+}
+
+.theme-btn {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff !important;
+    background: #54AB9A;
+    display: inline-block;
+    padding: 15px 40px;
+    border-radius: 30px;
+}
+
+.section-about-detail {
+    background-color: #E6EEF0;
+    height: 580px !important;
+}

@@ -1,19 +1,30 @@
 .login-background {
-    height: 100vh;
-    background: linear-gradient(135deg, rgba(254,253,205,1) 11.2%, rgba(163,230,255,1) 91.1%);
-    
+    height: 600px;
+    display: flex;
+    background-color: #F4F5F8;
+    margin: 70px 130px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 50px;
+
     .login-container {
         width: 400px;
-        margin: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 200px;
         height: 450px;
         background-color: white;
-        border-radius: 10px;
-        position: absolute;
+        // position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
-
+        background: transparent;
+        // backdrop-filter: blur(20px);
+        // box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+        // border: 2px solid rgba(255, 255, 255, .2);
+        // display: flex;
 
         .login-content {
             padding: 20px;
@@ -28,9 +39,10 @@
             .login-input {
                 margin: 7px 0;
 
-                .custom-input-password{
+                .custom-input-password {
                     position: relative;
-                    i{
+
+                    i {
                         position: absolute;
                         right: 8px;
                         top: 10px;
@@ -48,8 +60,8 @@
                 border: none;
                 color: white;
                 font-size: 16px;
-                background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(130,205,221,1) 0%, rgba(255,247,153,1) 90% );
-
+                // background-image: radial-gradient(circle farthest-corner at 10% 20%, rgb(70, 21, 185) 0%, rgb(163, 26, 191) 90%);
+                background-color: #64B2A3;
             }
 
             .forgot-password {
@@ -75,7 +87,7 @@
                     margin-right: 10px;
                 }
 
-                .facebook{
+                .facebook {
                     font-size: 30px;
                     background-color: #307aff;
                     border-radius: 50%;
@@ -88,6 +100,16 @@
                 }
 
             }
+        }
+    }
+
+    .img-login {
+        margin: auto 50px;
+
+        .img-login-src {
+            border-radius: 50px;
+            width: 500px;
+            height: 500px;
         }
     }
 }

@@ -146,8 +146,8 @@ class ManageSchedule extends Component {
                 <div className='m-s-title'>
                     <FormattedMessage id="manage-schedule.title" />
                 </div>
-                <div className='container'>
-                    <div className='row'>
+                <div>
+                    <div className='row row-schedule'>
                         <div className='col-6 form-group'>
                             <label><FormattedMessage id="manage-schedule.choose-doctor" /></label>
                             <Select

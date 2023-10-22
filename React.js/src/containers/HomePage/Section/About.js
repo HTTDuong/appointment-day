@@ -1,34 +1,48 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-
+import './About.scss';
 
 class About extends Component {
 
     render() {
 
         return (
-            <div className='section-share section-about'>
-                <div className='section-about-header'>
-                    Truyền thông nói gì về BookingCare
-                </div>
+            <div className='section-share section-about-detail'>
                 <div className='section-about-content'>
-                    <div className='content-left'>
-                        <iframe width="100%" height="400"
-                            src="https://www.youtube.com/embed/Mu6-h8pqZvA"
-                            title="Me And My Mom, Who Will Win In The End?"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen>
-                        </iframe>
-                    </div>
-                    <div className='content-right'>
-                        <p>Subscribe now to join our MSA family!
-                            Follow us on Instagram @my.story.animated for exclusive content, teasers for upcoming videos, and special giveaways.
-                            https://bit.ly/3jHDZ9A
-                            Make sure you also follow and like our Facebook page.
-                            Want to meet MSA’s community? Join our Facebook group to get in touch with other people who are as passionate about us as you are and share with us how our stories changed your life. https://bit.ly/2VwcaqE
-                            If you want to see exclusive memes and funny content that is short and WILL make your day brighter make sure to follow our Tiktok account https://bit.ly/3yoJ6jb</p>
+                    <div class="container-fluid">
+
+                        <div class="section-header text-center">
+                            <h2>Discover the Online Appointment!</h2>
+                            <p class="sub-title">A step-by-step guide to build an on-demand appointment for patients</p>
+                        </div>
+
+                        <div class="row blog-grid-row">
+                            <div class="col-lg-4">
+                                <div class="box_feat" id="step_1">
+                                    <span></span>
+                                    <h3>Find a Doctor</h3>
+                                    <p>With more than 1000+ doctors and on mission to provide best care Health Care Service</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="box_feat" id="step_2">
+                                    <span></span>
+                                    <h3>View Doctor</h3>
+                                    <p>Share your health concern here and we shall assign you a top doctor across the North East</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="box_feat" id="step_3">
+                                    <h3>Book a visit</h3>
+                                    <p>Book your time slot with doctor from your comfort zone</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mobi-pdb-20">
+                            <a href="#" class="theme-btn">Find Doctor <i class="fas fa-arrow-right"></i> </a>
+                        </div>
                     </div>
                 </div>
             </div>

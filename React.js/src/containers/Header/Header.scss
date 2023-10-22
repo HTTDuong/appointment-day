@@ -4,7 +4,8 @@
     z-index: 99;
     display: flex;
     justify-content: space-between;
-    background-color: $colormain;
+    // background-color: $colormain;
+    background-color: #04AA6D;
     color: $common-text-color;
     height: 40px;
     position: relative;
@@ -14,37 +15,39 @@
         line-height: 40px;
         height: 40px;
         padding: 0 10px;
+
         &:hover {
-            background-color: darken($colormain, 5);
+            background-color: darken(#04AA6D, 5);
         }
+
         i {
             font-size: $base-size + 1px;
         }
     }
 
-    .languages{
+    .languages {
 
-        .welcome{
+        .welcome {
             margin-right: 10px;
         }
-        
-        .language-vi{
+
+        .language-vi {
             cursor: pointer;
-            
-            &.active{
+
+            &.active {
                 opacity: 1;
                 color: orange;
             }
         }
-        
-        .language-en{
+
+        .language-en {
             margin-right: 15px;
             margin-left: 10px;
             cursor: pointer;
 
-            &.active{
+            &.active {
                 opacity: 1;
-                color: #04AA6D;
+                color: #007b4e;
             }
         }
 

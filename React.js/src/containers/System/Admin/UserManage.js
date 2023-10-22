@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
-import './ManagePatient.scss';
+import './UserManage.scss';
 import DatePicker from '../../../components/Input/DatePicker';
-import { getAllPatientForDoctor, postSendRemedy } from '../../../services/userService';
+import { getAllPatient, postSendRemedy, deleteBookingPatient } from '../../../services/userService';
 import moment from 'moment';
 import { LANGUAGES } from '../../../utils';
-import RemedyModal from './RemedyModal';
+import RemedyModal from '../Doctor/RemedyModal';
 import { toast } from 'react-toastify';
 import LoadingOverlay from 'react-loading-overlay';
 
-class ManagePatient extends Component {
+class UserManage extends Component {
 
     constructor(props) {
         super(props);
@@ -28,14 +28,13 @@ class ManagePatient extends Component {
     }
 
     getDataPatient = async () => {
-        let { user } = this.props;
         let { currentDate } = this.state;
         let formattedDate = new Date(currentDate).getTime();
 
-        let res = await getAllPatientForDoctor({
-            doctorId: user.id,
+        let res = await getAllPatient({
             date: formattedDate
         })
+        console.log(res)
         if (res && res.errCode === 0) {
             this.setState({
                 dataPatient: res.data
@@ -71,6 +70,11 @@ class ManagePatient extends Component {
             isOpenRemedyModal: true,
             dataModal: data
         })
+    }
+
+    handleBtnCancel = async (item) => {
+        let res = await deleteBookingPatient(item.id)
+        this.getDataPatient()
     }
 
     closeRemedyModal = () => {
@@ -112,10 +116,6 @@ class ManagePatient extends Component {
         }
     }
 
-    handleBtnRemedy = () => {
-
-    }
-
 
     render() {
         let { dataPatient, isOpenRemedyModal, dataModal } = this.state;
@@ -147,30 +147,43 @@ class ManagePatient extends Component {
                                     <tbody>
                                         <tr>
                                             <th>STT</th>
-                                            <th>Thời gian</th>
+                                            <th>Ngày tạo</th>
                                             <th>Họ và tên</th>
+                                            <th>Thời gian</th>
                                             <th>Địa chỉ</th>
                                             <th>Giới tính</th>
+                                            <th>Trạng thái</th>
                                             <th>Actions</th>
                                         </tr>
                                         {dataPatient && dataPatient.length > 0 ?
                                             dataPatient.map((item, index) => {
+                                                let dateCreated = new Date(item.createdAt);
+                                                dateCreated = moment(dateCreated).format('DD/MM/YYYY')
                                                 let time = language === LANGUAGES.VI ?
                                                     item.timeTypeDataPatient.valueVi : item.timeTypeDataPatient.valueEn;
+                                                let status = language === LANGUAGES.VI ?
+                                                    item.statusTypeDataPatient.valueVi : item.statusTypeDataPatient.valueEn;
                                                 let gender = language === LANGUAGES.VI ?
                                                     item.patientData.genderData.valueVi : item.patientData.genderData.valueEn
                                                 return (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
-                                                        <td>{time}</td>
+                                                        <td>{dateCreated}</td>
                                                         <td>{item.patientData.firstName}</td>
+                                                        <td>{time}</td>
                                                         <td>{item.patientData.address}</td>
                                                         <td>{gender}</td>
+                                                        <td>{status}</td>
                                                         <td>
                                                             <button className='mp-btn-confirm'
                                                                 onClick={() => this.handleBtnConfirm(item)}
                                                             >
                                                                 Xác nhận
+                                                            </button>
+                                                            <button className='mp-btn-confirm'
+                                                                onClick={() => this.handleBtnCancel(item)}
+                                                            >
+                                                                Hủy
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -178,7 +191,7 @@ class ManagePatient extends Component {
                                             })
                                             :
                                             <tr>
-                                                <td colSpan="6" style={{ textAlign: "center" }}>no data</td>
+                                                <td colSpan="8" style={{ textAlign: "center" }}>no data</td>
                                             </tr>
                                         }
                                     </tbody>
@@ -211,4 +224,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient);
+export default connect(mapStateToProps, mapDispatchToProps)(UserManage);

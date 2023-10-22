@@ -40,12 +40,18 @@
             }
 
             .btn-booking-confirm {
-                background-color: orange;
+                background-color: #FFC04B;
             }
 
             .btn-booking-cancel {
-                background-color: gray;
+                background-color: rgb(187, 187, 187);
             }
         }
     }
+}
+
+.modal-content {
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2) !important;
+    border: 2px solid rgba(255, 255, 255, .2) !important;
 }

@@ -1,14 +1,15 @@
 /*
  * General styles
  */
- body, html {
-    background-image: "#fff";
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-family: $fontmain;
-    font-size: $base-size - 2px;
-    height: 100vh;
-    overflow: hidden;
+body,
+html {
+  background-image: "#fff";
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: $fontmain;
+  font-size: $base-size - 2px;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .content-container {
@@ -18,8 +19,9 @@
     font-weight: bold;
     font-size: $base-size + 4px;
     margin-top: 15px;
-    color: $colormain;
+    color: black;
   }
+
   .content {
     margin: 15px 30px;
     box-shadow: 2px 2px 4px 0 $box-shadow-color;

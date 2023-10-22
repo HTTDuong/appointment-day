@@ -42,7 +42,10 @@ class ProfileDoctor extends Component {
 
         }
         if (this.props.doctorId !== prevProps.doctorId) {
-            this.getInforDoctor(this.props.doctorId)
+            let data = await this.getInforDoctor(this.props.doctorId);
+            this.setState({
+                dataProfile: data,
+            });
         }
 
     }
@@ -58,7 +61,7 @@ class ProfileDoctor extends Component {
             return (
                 <>
                     <div>{time} - {date}</div>
-                    <div><FormattedMessage id="patient.booking-modal-priceBooking" /></div>
+                    <div><FormattedMessage id="patient.booking-modal.priceBooking" /></div>
                 </>
             )
         }
@@ -70,6 +73,7 @@ class ProfileDoctor extends Component {
         let { dataProfile } = this.state;
         let { language, isShowDescriptionDoctor, dataTime,
             isShowLinkDetail, isShowPrice, doctorId } = this.props;
+        // console.log(doctorId)
         let nameVi = '', nameEn = '';
         if (dataProfile && dataProfile.positionData) {
             nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;

@@ -3,14 +3,11 @@ import {
     createNewUserService, getAllCodeService, getAllUsers,
     deleteUserService, editUserService, getTopDoctorHomeService,
     getAllDoctors, saveDetailDoctorService, getAllSpectialty,
-    getAllClinic
+    getAllClinic, getAllHandbook, editClinicService, deleteClinicData
 }
     from '../../services/userService';
 import { toast } from 'react-toastify';
 
-// export const fetchGenderStart = () => ({
-//     type: actionTypes.FETCH_GENDER_START
-// })
 
 export const fetchGenderStart = () => {
     return async (dispatch, getState) => {
@@ -165,6 +162,7 @@ export const deleteAUser = (userId) => {
 export const deleteUserSuccess = () => ({
     type: actionTypes.DELETE_USER_SUCCESS
 })
+
 export const deleteUserFailed = () => ({
     type: actionTypes.DELETE_USER_FAILED
 })
@@ -196,7 +194,6 @@ export const editUserSuccess = () => ({
 export const editUserFailed = () => ({
     type: actionTypes.EDIT_USER_FAILED
 })
-// let res1 = await getTopDoctorHomeService(3);
 
 export const fetchTopDoctor = () => {
     return async (dispatch, getState) => {
@@ -302,12 +299,14 @@ export const getRequiredDoctorInfor = () => {
             let resProvince = await getAllCodeService("PROVINCE");
             let resSpecialty = await getAllSpectialty();
             let resClinic = await getAllClinic();
+            // let resHandbook = await getAllHandbook();
 
             if (resPrice && resPrice.errCode === 0
                 && resPayment && resPayment.errCode === 0
                 && resProvince && resProvince.errCode === 0
                 && resSpecialty && resSpecialty.errCode === 0
                 && resClinic && resClinic.errCode === 0
+                // && resHandbook && resHandbook.errCode === 0
             ) {
 
                 let data = {
@@ -315,7 +314,8 @@ export const getRequiredDoctorInfor = () => {
                     resPayment: resPayment.data,
                     resProvince: resProvince.data,
                     resSpecialty: resSpecialty.data,
-                    resClinic: resClinic.data
+                    resClinic: resClinic.data,
+                    // resHandbook: resHandbook.data
                 }
                 dispatch(fetchAllRequiredDoctorInforSuccess(data))
             } else {
@@ -336,3 +336,88 @@ export const fetchAllRequiredDoctorInforSuccess = (allRequiredData) => ({
 export const fetchAllRequiredDoctorInforFailed = () => ({
     type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED
 })
+
+export const fetchAllClinic = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllClinic();
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllClinicsSuccess(res.data.reverse()))
+            } else {
+                toast.error("Fetch all clinics error!")
+                dispatch(fetchAllClinicsFailed());
+            }
+        } catch (e) {
+            toast.error("Fetch all clinics error!")
+            dispatch(fetchAllClinicsFailed());
+            console.log('fetchAllClinicsFailed error', e)
+        }
+    }
+}
+
+export const fetchAllClinicsSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_CLINICS_SUCCESS,
+    clinics: data
+})
+
+export const fetchAllClinicsFailed = () => ({
+    type: actionTypes.FETCH_ALL_CLINICS_FAILED
+})
+
+export const deleteAClinic = (userId) => {
+    return async (dispatch, getState) => {
+        // console.log(deleteClinicData(userId));
+        try {
+            let res = await deleteClinicData(userId);
+            if (res && res.errCode === 0) {
+                toast.success("Delete the clinic succeed!")
+                dispatch(deleteClinicSuccess())
+                dispatch(fetchAllClinic())
+            } else {
+                toast.error("Delete the clinic error!")
+                dispatch(deleteClinicFailed());
+            }
+        } catch (e) {
+            toast.error("Delete the clinic error!")
+            dispatch(deleteClinicFailed());
+            console.log('fetchRoleFailed error', e)
+        }
+    }
+}
+
+export const deleteClinicSuccess = () => ({
+    type: actionTypes.DELETE_CLINIC_SUCCESS
+})
+
+export const deleteClinicFailed = () => ({
+    type: actionTypes.DELETE_CLINIC_FAILED
+})
+
+export const editClinic = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await editClinicService(data);
+            if (res && res.errCode === 0) {
+                toast.success("Update the clinic succeed!")
+                dispatch(editClinicSuccess())
+                dispatch(fetchAllClinic())
+            } else {
+                toast.error("Update the clinic error!")
+                dispatch(editClinicFailed());
+            }
+        } catch (e) {
+            toast.error("Update the clinic error!")
+            dispatch(editClinicFailed());
+            console.log('editUserFailed error', e)
+        }
+    }
+}
+
+export const editClinicSuccess = () => ({
+    type: actionTypes.EDIT_CLINIC_SUCCESS
+})
+
+export const editClinicFailed = () => ({
+    type: actionTypes.EDIT_CLINIC_FAILED
+})
+

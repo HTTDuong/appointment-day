@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import * as actions from "../../../store/actions";
 import { LANGUAGES } from "../../../utils";
 import { withRouter } from 'react-router';
+import './OutStandingDoctor.scss';
 
 class OutStandingDoctor extends Component {
 
@@ -35,7 +36,7 @@ class OutStandingDoctor extends Component {
 
     render() {
         let arrDoctors = this.state.arrDoctors;
-        // arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors)
+        // console.log('check doctor: ', this.state.arrDoctors)
         let { language } = this.props;
         return (
             <div className='section-share section-outstanding-doctor section-specialty'>
@@ -65,9 +66,9 @@ class OutStandingDoctor extends Component {
                                                         style={{ backgroundImage: `url(${imageBase64})` }}
                                                     ></div>
                                                 </div>
-                                                <div className='position text-center'>
+                                                <div className='position text-center specialty-name'>
                                                     <div>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
-                                                    <div>Cơ xương khớp</div>
+                                                    <div>{item.Doctor_Infor.specialtyTypeData.name}</div>
                                                 </div>
                                             </div>
                                         </div>
