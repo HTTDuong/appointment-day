@@ -6,6 +6,7 @@ import doctorController from "../controllers/doctorController";
 import patientController from "../controllers/patientController";
 import specialtyController from "../controllers/specialtyController"
 import clinicController from "../controllers/clinicController"
+import handbookController from "../controllers/handbookController";
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -35,6 +36,8 @@ let initWebRoutes = (app) => {
 
     router.get('/api/get-list-patient-for-doctor', doctorController.getListPatientForDoctor);
     router.post('/api/send-remedy', doctorController.sendRemedy);
+    router.get('/api/get-list-patient', doctorController.getListPatient);
+    router.delete('/api/get-booking-patient', doctorController.deleteBookingPatient);
 
     router.post('/api/patient-book-appointment', patientController.postBookAppointment);
     router.post('/api/verify-book-appointment', patientController.postVerifyBookAppointment);
@@ -46,6 +49,12 @@ let initWebRoutes = (app) => {
     router.post('/api/create-new-clinic', clinicController.createClinic);
     router.get('/api/get-clinic', clinicController.getAllClinic);
     router.get('/api/get-detail-clinic-by-id', clinicController.getDetailClinicById);
+    router.put('/api/edit-clinic', clinicController.updateClinicData);
+    router.delete('/api/delete-clinic', clinicController.deleteClinicData);
+
+    router.post('/api/create-new-handbook', handbookController.createHandbook);
+    router.get('/api/get-handbook', handbookController.getAllHandbook);
+    router.get('/api/get-detail-handbook-by-id', handbookController.getDetailHandbookById);
 
     //rest api (get post delete put)
 

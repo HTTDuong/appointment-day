@@ -17,7 +17,20 @@ let getTopDoctorHome = (limitInput) => {
                 },
                 include: [
                     { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
-                    { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi'] }
+                    { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi'] },
+                    {
+                        model: db.Doctor_Infor,
+                        attributes: {
+                            exclude: ['id', 'doctorId']
+                        },
+                        include: [
+                            {
+                                model: db.Specialty,
+                                as: 'specialtyTypeData',
+                                attributes: ['name']
+                            },
+                        ]
+                    }
                 ],
                 raw: true,
                 nest: true
@@ -453,6 +466,76 @@ let getListPatientForDoctor = (doctorId, date) => {
     })
 }
 
+let getListPatient = (date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!date) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required param!'
+                })
+            } else {
+                let data = await db.Booking.findAll({
+                    where: {
+                        statusId: 'S2' || 'S1',
+                        // doctorId: doctorId,
+                        date: date
+                    },
+                    include: [
+                        {
+                            model: db.User, as: 'patientData',
+                            attributes: ['email', 'firstName', 'address', 'gender'],
+                            include: [
+                                {
+                                    model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi']
+                                }
+                            ]
+                        },
+                        {
+                            model: db.Allcode, as: 'timeTypeDataPatient', attributes: ['valueEn', 'valueVi']
+                        },
+                        {
+                            model: db.Allcode, as: 'statusTypeDataPatient', attributes: ['valueEn', 'valueVi']
+                        }
+                    ],
+                    raw: false,
+                    nest: true
+                })
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+let deleteBookingPatient = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        let foundUser = await db.Booking.findOne({
+            where: { id: userId.id }
+        })
+
+        if (!foundUser) {
+            resolve({
+                errCode: 2,
+                errMessage: `Booking doesn't exist`
+            })
+        }
+
+        await db.Booking.destroy({
+            where: { id: userId.id }
+        })
+
+        resolve({
+            errCode: 0,
+            errMessage: 'Booking is deleted'
+        })
+    })
+}
+
 let sendRemedy = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -464,6 +547,7 @@ let sendRemedy = (data) => {
                     errMessage: 'Missing required param!'
                 })
             } else {
+                // update patient status
                 let appointment = await db.Booking.findOne({
                     where: {
                         doctorId: data.doctorId,
@@ -471,7 +555,7 @@ let sendRemedy = (data) => {
                         timeType: data.timeType,
                         statusId: 'S2'
                     },
-                    raw: false
+                    raw: false   // trả ra class của sequelize thì mới xài save() được
                 })
 
                 if (appointment) {
@@ -479,6 +563,7 @@ let sendRemedy = (data) => {
                     await appointment.save()
                 }
 
+                // send email
                 await emailService.sendAttachment(data);
 
                 resolve({
@@ -502,5 +587,7 @@ module.exports = {
     getExtraInforDoctorbyId: getExtraInforDoctorbyId,
     getProfileDoctorbyId: getProfileDoctorbyId,
     getListPatientForDoctor: getListPatientForDoctor,
-    sendRemedy: sendRemedy
+    sendRemedy: sendRemedy,
+    getListPatient: getListPatient,
+    deleteBookingPatient: deleteBookingPatient
 }

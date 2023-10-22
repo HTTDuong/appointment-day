@@ -29,8 +29,6 @@ let postBookAppointment = (data) => {
                     redirectLink: buildUrlEmail(data.doctorId, token)
                 })
 
-
-
                 //upsert patient
                 let user = await db.User.findOrCreate({
                     where: { email: data.email },
@@ -39,9 +37,45 @@ let postBookAppointment = (data) => {
                         roleId: 'R3',
                         gender: data.selectedGender,
                         address: data.address,
-                        fulltName: data.fullName
+                        firstName: data.fullName
                     },
                 });
+
+                // update patient and check history
+                if (!user[1]) {
+                    user[0].gender = data.selectedGender;
+                    user[0].address = data.address;
+                    user[0].firstName = data.fullName
+
+                    let appointment = await db.Booking.findAll({
+                        where: {
+                            patientId: user[0].id,
+                            statusId: 'S1' || 'S2'
+                        },
+                        raw: false
+                    })
+                    if (appointment && appointment.length > 0) {
+                        resolve({
+                            data: user,
+                            errCode: 0,
+                            errMessage: 'Save Infor user succeed!'
+                        })
+                    } else {
+                        await db.Booking.create({
+                            statusId: 'S1',
+                            doctorId: data.doctorId,
+                            patientId: user[0].id,
+                            date: data.date,
+                            timeType: data.timeType,
+                            token: token
+                        })
+                        resolve({
+                            data: user,
+                            errCode: 0,
+                            errMessage: 'Save Infor user succeed!'
+                        })
+                    }
+                }
 
                 //create a booking record
                 if (user && user[0]) {
@@ -102,7 +136,6 @@ let postVerifyBookAppointment = (data) => {
                         errMessage: "Appointment has been activated or doesn't exist"
                     })
                 }
-
             }
 
         } catch (error) {

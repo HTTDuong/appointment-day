@@ -26,7 +26,7 @@ let handleLogin = async (req, res) => {
 
 let handleGetAllUsers = async (req, res) => {
     let id = req.query.id; //ALL, id
-    if(!id){
+    if (!id) {
         return res.status(200).json({
             errCode: 1,
             errMessage: 'Missing required parameters',
@@ -48,7 +48,7 @@ let handleCreateNewUser = async (req, res) => {
 }
 
 let handleDeleteUser = async (req, res) => {
-    if(!req.body.id){
+    if (!req.body.id) {
         return res.status(200).json({
             errCode: 1,
             message: "Missing required parameters!"
@@ -58,13 +58,13 @@ let handleDeleteUser = async (req, res) => {
     return res.status(200).json(message);
 }
 
-let handleEditUser = async(req, res) => {
+let handleEditUser = async (req, res) => {
     let data = req.body;
     let message = await userService.updateUserData(data);
     return res.status(200).json(message);
 }
 
-let getAllCode = async(req,res) => {
+let getAllCode = async (req, res) => {
     try {
         let data = await userService.getAllCodeService(req.query.type);
         return res.status(200).json(data);
@@ -78,7 +78,7 @@ let getAllCode = async(req,res) => {
 }
 
 module.exports = {
-    handleLogin: handleLogin, 
+    handleLogin: handleLogin,
     handleGetAllUsers: handleGetAllUsers,
     handleCreateNewUser: handleCreateNewUser,
     handleEditUser: handleEditUser,

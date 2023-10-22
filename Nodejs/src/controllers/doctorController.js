@@ -120,6 +120,30 @@ let getListPatientForDoctor = async (req, res) => {
     }
 }
 
+let getListPatient = async (req, res) => {
+    try {
+        let infor = await doctorService.getListPatient(req.query.date);
+        return res.status(200).json(infor)
+    } catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from the server'
+        })
+    }
+}
+
+let deleteBookingPatient = async (req, res) => {
+    if (!req.body.id) {
+        return res.status(200).json({
+            errCode: 1,
+            message: "Missing required parameters!"
+        })
+    }
+    let message = await doctorService.deleteBookingPatient(req.body);
+    return res.status(200).json(message);
+}
+
 let sendRemedy = async (req, res) => {
     try {
         let infor = await doctorService.sendRemedy(req.body);
@@ -143,5 +167,7 @@ module.exports = {
     getExtraInforDoctorbyId: getExtraInforDoctorbyId,
     getProfileDoctorbyId: getProfileDoctorbyId,
     getListPatientForDoctor: getListPatientForDoctor,
-    sendRemedy: sendRemedy
+    sendRemedy: sendRemedy,
+    getListPatient: getListPatient,
+    deleteBookingPatient: deleteBookingPatient
 }

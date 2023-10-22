@@ -30,6 +30,7 @@ let createClinic = (data) => {
         }
     })
 }
+
 let getAllClinic = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -52,6 +53,7 @@ let getAllClinic = () => {
         }
     })
 }
+
 let getDetailClinicById = (inputId) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -89,8 +91,74 @@ let getDetailClinicById = (inputId) => {
     })
 }
 
+let updateClinicData = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.id || !data.name || !data.address || !data.descriptionHTML || !data.descriptionMarkdown || !data.image) {
+                resolve({
+                    errCode: 2,
+                    message: 'Missing required parameters!'
+                })
+            }
+            let clinic = await db.Clinic.findOne({
+                where: { id: data.id },
+                raw: false
+            })
+            if (clinic) {
+                clinic.name = data.name;
+                clinic.address = data.address;
+                clinic.descriptionHTML = data.descriptionHTML;
+                clinic.descriptionMarkdown = data.descriptionMarkdown;
+                if (data.image) {
+                    clinic.image = data.image;
+                }
+
+                await clinic.save();
+
+                resolve({
+                    errCode: 0,
+                    message: 'Update clinic succeed!'
+                });
+            } else {
+                resolve({
+                    errCode: 1,
+                    message: 'Clinic not found!'
+                });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+let deleteClinicData = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        let foundUser = await db.Clinic.findOne({
+            where: { id: userId.id }
+        })
+
+        if (!foundUser) {
+            resolve({
+                errCode: 2,
+                errMessage: `Clinic doesn't exist`
+            })
+        }
+
+        await db.Clinic.destroy({
+            where: { id: userId.id }
+        })
+
+        resolve({
+            errCode: 0,
+            errMessage: 'Clinic is deleted'
+        })
+    })
+}
+
 module.exports = {
     createClinic: createClinic,
     getAllClinic: getAllClinic,
-    getDetailClinicById: getDetailClinicById
+    getDetailClinicById: getDetailClinicById,
+    updateClinicData: updateClinicData,
+    deleteClinicData: deleteClinicData
 }
