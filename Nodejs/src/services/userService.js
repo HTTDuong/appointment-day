@@ -1,5 +1,6 @@
 import db from "../models/index";
 import bcrypt from 'bcryptjs';
+require('dotenv').config();
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -70,7 +71,14 @@ let getAllUsers = (userId) => {
                 users = await db.User.findAll({
                     attributes: {
                         exclude: ['password']
-                    }
+                    },
+                    include: [
+                        {
+                            model: db.Allcode, as: 'roleData', attributes: ['valueEn', 'valueVi']
+                        }
+                    ],
+                    raw: false,
+                    nest: true
                 })
             }
             if (userId && userId !== 'ALL') {
