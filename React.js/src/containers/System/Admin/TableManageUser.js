@@ -49,6 +49,7 @@ class TableManageUser extends Component {
     render() {
         // console.log('hoidanit check all users ', this.props.listUsers)
         let arrUsers = this.state.userRedux;
+        console.log(arrUsers)
 
         return (
             <React.Fragment>
@@ -59,6 +60,7 @@ class TableManageUser extends Component {
                             <th>First name</th>
                             <th>Last name</th>
                             <th>Address</th>
+                            <th>Role</th>
                             <th>Action</th>
                         </tr>
                         {arrUsers && arrUsers.length > 0
@@ -69,6 +71,7 @@ class TableManageUser extends Component {
                                         <td>{item.firstName}</td>
                                         <td>{item.lastName}</td>
                                         <td>{item.address}</td>
+                                        <td>{item.roleData.valueVi}</td>
                                         <td>
                                             <button className='btn-edit'
                                                 onClick={() => this.handleEditUser(item)}>

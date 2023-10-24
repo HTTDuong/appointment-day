@@ -121,6 +121,7 @@ class ManagePatient extends Component {
         let { dataPatient, isOpenRemedyModal, dataModal } = this.state;
         let { language } = this.props;
         // console.log("thuyduong ", dataPatient)
+        console.log(this.props)
 
         return (
             <>
