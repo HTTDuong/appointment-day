@@ -243,6 +243,7 @@ let bulkCreateSchedule = (data) => {
                 if (schedule && schedule.length > 0) {
                     schedule = schedule.map(item => {
                         item.maxNumber = MAX_NUMBER_SCHEDULE;
+                        item.currentNumber = 0;
                         return item;
                     })
                 }
@@ -449,6 +450,15 @@ let getListPatientForDoctor = (doctorId, date) => {
                             ]
                         },
                         {
+                            model: db.Record, as: 'recordIdTypeData',
+                            attributes: ['fullName', 'address', 'gender', 'phoneNumber'],
+                            include: [
+                                {
+                                    model: db.Allcode, as: 'genderDataRecord', attributes: ['valueEn', 'valueVi']
+                                }
+                            ]
+                        },
+                        {
                             model: db.Allcode, as: 'timeTypeDataPatient', attributes: ['valueEn', 'valueVi']
                         }
                     ],
@@ -487,6 +497,15 @@ let getListPatient = (date) => {
                             include: [
                                 {
                                     model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi']
+                                }
+                            ]
+                        },
+                        {
+                            model: db.Record, as: 'recordIdTypeData',
+                            attributes: ['fullName', 'address', 'gender', 'phoneNumber'],
+                            include: [
+                                {
+                                    model: db.Allcode, as: 'genderDataRecord', attributes: ['valueEn', 'valueVi']
                                 }
                             ]
                         },
@@ -576,6 +595,68 @@ let sendRemedy = (data) => {
     })
 }
 
+let saveHistory = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.History.create({
+                patientId: data.patientId,
+                doctorId: data.doctorId,
+                recordId: data.recordId,
+                date: data.date,
+                files: data.files,
+                fullName: data.fullName,
+                address: data.address,
+                phoneNumber: data.phoneNumber,
+                gender: data.gender,
+            })
+            resolve({
+                errCode: 0,
+                message: 'OK'
+            });
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+let getListHistory = (patientId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!patientId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required param!'
+                })
+            } else {
+                let histories = await db.History.findAll({
+                    where: {
+                        patientId: patientId
+                    },
+                    include: [
+                        {
+                            model: db.Allcode, as: 'genderDataHistory', attributes: ['valueEn', 'valueVi']
+                        },
+                        {
+                            model: db.User, as: 'doctorIdHistory',
+                            attributes: ['firstName', 'lastName'],
+                        }
+                    ],
+                    raw: false,
+                    nest: true
+                })
+
+                resolve({
+                    errCode: 0,
+                    data: histories
+                })
+            }
+        } catch (error) {
+            console.log("check error", error)
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -588,5 +669,7 @@ module.exports = {
     getListPatientForDoctor: getListPatientForDoctor,
     sendRemedy: sendRemedy,
     getListPatient: getListPatient,
-    deleteBookingPatient: deleteBookingPatient
+    deleteBookingPatient: deleteBookingPatient,
+    saveHistory: saveHistory,
+    getListHistory: getListHistory
 }

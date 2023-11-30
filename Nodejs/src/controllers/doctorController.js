@@ -157,6 +157,24 @@ let sendRemedy = async (req, res) => {
     }
 }
 
+let saveHistory = async (req, res) => {
+    let message = await doctorService.saveHistory(req.body);
+    return res.status(200).json(message);
+}
+
+let getListHistory = async (req, res) => {
+    try {
+        let histories = await doctorService.getListHistory(req.query.patientId);
+        return res.status(200).json(histories)
+    } catch (error) {
+        console.log(error)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from the server'
+        })
+    }
+}
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -169,5 +187,7 @@ module.exports = {
     getListPatientForDoctor: getListPatientForDoctor,
     sendRemedy: sendRemedy,
     getListPatient: getListPatient,
-    deleteBookingPatient: deleteBookingPatient
+    deleteBookingPatient: deleteBookingPatient,
+    saveHistory: saveHistory,
+    getListHistory: getListHistory
 }

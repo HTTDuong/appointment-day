@@ -24,6 +24,33 @@ let handleLogin = async (req, res) => {
     })
 }
 
+let handleRegister = async (req, res) => {
+    let email = req.body.data.username;
+    let password = req.body.data.password;
+    let fullName = req.body.data.fullName;
+    let phone = req.body.data.phoneNumber;
+    console.log(req.body)
+
+    if (!email || !password || !fullName || !phone) {
+        return res.status(500).json({
+            errCode: 1,
+            message: 'Missing inputs parameter!'
+        })
+    }
+
+    let userData = await userService.handleUserRegister(req.body.data);
+
+    // check email exist
+    // compare password
+    // return userInfor
+    // access_token: JWT json web token
+    return res.status(200).json({
+        errCode: userData.errCode,
+        message: userData.errMessage,
+        user: userData.user ? userData.user : {}
+    })
+}
+
 let handleGetAllUsers = async (req, res) => {
     let id = req.query.id; //ALL, id
     if (!id) {
@@ -83,5 +110,6 @@ module.exports = {
     handleCreateNewUser: handleCreateNewUser,
     handleEditUser: handleEditUser,
     handleDeleteUser: handleDeleteUser,
-    getAllCode: getAllCode
+    getAllCode: getAllCode,
+    handleRegister: handleRegister
 }

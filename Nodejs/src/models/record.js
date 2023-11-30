@@ -2,8 +2,9 @@
 const {
   Model
 } = require('sequelize');
+const { sequelize } = require('.');
 module.exports = (sequelize, DataTypes) => {
-  class History extends Model {
+  class Record extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,22 +12,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      History.belongsTo(models.User, { foreignKey: 'doctorId', targetKey: 'id', as: 'doctorIdHistory' })
-      History.belongsTo(models.Allcode, { foreignKey: 'gender', targetKey: 'keyMap', as: 'genderDataHistory' })
+      Record.belongsTo(models.User, { foreignKey: 'userId', targetKey: 'id', as: 'userData' })
+      Record.belongsTo(models.Allcode, { foreignKey: 'gender', targetKey: 'keyMap', as: 'genderDataRecord' })
+      Record.hasMany(models.Booking, { foreignKey: 'recordId', as: 'recordIdTypeData' })
     }
   };
-  History.init({
-    patientId: DataTypes.INTEGER,
-    doctorId: DataTypes.INTEGER,
-    date: DataTypes.STRING,
-    files: DataTypes.TEXT,
+  Record.init({
+    userId: DataTypes.INTEGER,
     fullName: DataTypes.STRING,
     address: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
     gender: DataTypes.STRING,
+    roleId: DataTypes.STRING,
   }, {
     sequelize,
-    modelName: 'History',
+    modelName: 'Record',
   });
-  return History;
+  return Record;
 };

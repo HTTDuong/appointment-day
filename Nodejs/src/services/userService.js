@@ -46,6 +46,35 @@ let handleUserLogin = (email, password) => {
     })
 }
 
+let handleUserRegister = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let userData = {};
+
+            let isExist = await checkUserEmail(data.username);
+            if (isExist) {
+                //user exist
+                userData.errCode = 1;
+                userData.errMessage = `Your email is already used. Please try another email!`
+            } else {
+                let hashPasswordFromBcrypt = await hashUserPassword(data.password);
+                await db.User.create({
+                    email: data.username,
+                    password: hashPasswordFromBcrypt,
+                    firstName: data.fullName,
+                    phoneNumber: data.phoneNumber,
+                    roleId: 'R3',
+                })
+                userData.errCode = 0,
+                    userData.errMessage = 'OK'
+            }
+            resolve(userData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 let checkUserEmail = (userEmail) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -246,4 +275,5 @@ module.exports = {
     deleteUser: deleteUser,
     updateUserData: updateUserData,
     getAllCodeService: getAllCodeService,
+    handleUserRegister: handleUserRegister
 }
