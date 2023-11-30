@@ -1,0 +1,77 @@
+.content-btn {
+    display: flex;
+    justify-content: end;
+
+    .btn-add {
+        height: 50px;
+        color: #000;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        border: none;
+        background: transparent;
+
+        i {
+            padding-right: 16px;
+        }
+    }
+
+}
+
+.all-records {
+    .section-info {
+        margin-bottom: 30px;
+        margin-left: 90px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+        border-radius: 20px;
+        width: 900px;
+        height: 190px;
+        background-color: #fff;
+        display: flex;
+
+        .customize-info {
+            width: 100%;
+
+            .user-item {
+                margin: 20px;
+                display: flex;
+
+                .user-item-left {
+                    margin-right: 10px;
+
+                    i {
+                        margin-right: 10px;
+                    }
+                }
+
+                .user-item-right {}
+            }
+        }
+
+        .customize-info-bottom {
+            border-left: 1px solid #ccc;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            width: 100px;
+            background-color: #ff0000;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            cursor: pointer;
+
+
+            .btn-delete {
+                background-color: #ff0000;
+                border: none;
+                margin: auto;
+
+                i {
+                    margin-right: 10px;
+                    color: #fff;
+                    margin: auto;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}

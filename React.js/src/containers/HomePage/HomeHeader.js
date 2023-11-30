@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from "../../store/actions";
 import './HomeHeader.scss';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils';
-// import logo from '../../assets/logo.svg';
-import logo from '../../assets/logo2.png';
 import banner from '../../assets/home_intro1_2022-04-13-100108_szxi.f1690468945.svg';
 import { changeLanguageApp } from '../../store/actions';
 import { withRouter } from 'react-router';
+import { Redirect } from 'react-router-dom';
 
 class HomeHeader extends Component {
 
@@ -23,16 +23,22 @@ class HomeHeader extends Component {
         }
     }
 
+    handleUserRecord = (userInfo) => {
+        if (this.props.history) {
+            this.props.history.push(`/user/record`)
+        }
+    }
+
     render() {
         let language = this.props.language;
+        let isShowLogin = this.props;
+        const { processLogout, userInfo } = this.props;
 
         return (
             <React.Fragment>
                 <div className='home-header-container'>
                     <div className='home-header-content'>
-                        <div className='left-content'>
-                            {/* <i className="fas fa-bars"></i> */}
-                            {/* <img className='header-logo' src={logo} onClick={() => this.returnToHome()} /> */}
+                        <div className='left-content' >
                             <svg class="block w-auto h-[25px] xs:h-[34px] mdw:h-[39px]" width="169" height="41" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 169 41" fill="none">
                                 <path d="M49.1416 6.47852H54.8163C60.0832 6.47852 63.5007 9.24695 63.5007 15.9498C63.5007 22.6526 60.0832 25.4268 54.8163 25.4268H49.1416V6.47852ZM54.8163 23.1695C58.7162 23.1695 60.9735 21.4234 60.9735 15.9555C60.9735 10.4818 58.6818 8.74151 54.8163 8.74151H51.6745V23.1753H54.8163V23.1695Z" fill="#190D30"></path>
                                 <path d="M70.2436 17.4261L75.2348 17.2194V16.467C75.2348 14.5199 74.2412 13.3884 71.8174 13.3884C69.3878 13.3884 68.4344 14.5141 68.3655 15.9558H65.9014C66.0048 13.3539 67.8485 11.3379 71.7829 11.3379C75.7173 11.3379 77.5265 13.3539 77.5265 16.6048V25.427H75.2004V23.9567C75.2004 23.8533 75.1315 23.7843 75.0281 23.7843C74.9247 23.7843 74.8558 23.8188 74.7524 23.9567C73.7587 25.2547 72.3917 25.8061 70.548 25.8061C67.165 25.8061 65.1777 24.0256 65.1777 21.395C65.2122 19.0286 66.8204 17.5582 70.2436 17.4261ZM70.8926 23.7843C73.5232 23.7843 75.2348 22.2795 75.2348 19.3732V19.2009L70.2436 19.4422C68.3942 19.5111 67.613 20.229 67.613 21.4237C67.6073 22.8596 68.7732 23.7843 70.8926 23.7843Z" fill="#190D30"></path>
@@ -102,6 +108,14 @@ class HomeHeader extends Component {
                             <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}>
                                 <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span>
                             </div>
+                            {/* {this.props.checklogout && */}
+                            <div className="btn" title='user' onClick={() => this.handleUserRecord(userInfo)}>
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div className="btn btn-logout" onClick={processLogout} title='Log out'>
+                                <i className="fas fa-sign-out-alt"></i>
+                            </div>
+                            {/* } */}
                         </div>
                     </div>
                 </div>
@@ -115,7 +129,6 @@ class HomeHeader extends Component {
                                     <i className="fas fa-search"></i>
                                     <input type='text' placeholder='Search' />
                                 </div>
-                                {/* <div className='title3'><FormattedMessage id="banner.title3" /></div> */}
                             </div>
                             <img className='header-img' src={banner} />
                         </div>
@@ -166,6 +179,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        processLogout: () => dispatch(actions.processLogout()),
         changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
     };
 };

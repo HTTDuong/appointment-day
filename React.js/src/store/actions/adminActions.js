@@ -3,7 +3,8 @@ import {
     createNewUserService, getAllCodeService, getAllUsers,
     deleteUserService, editUserService, getTopDoctorHomeService,
     getAllDoctors, saveDetailDoctorService, getAllSpectialty,
-    getAllClinic, getAllHandbook, editClinicService, deleteClinicData
+    getAllClinic, getAllHandbook, editClinicService, deleteClinicData,
+    getAllRecords, getAllHistory, deleteRecord
 }
     from '../../services/userService';
 import { toast } from 'react-toastify';
@@ -419,5 +420,79 @@ export const editClinicSuccess = () => ({
 
 export const editClinicFailed = () => ({
     type: actionTypes.EDIT_CLINIC_FAILED
+})
+
+export const fetchAllRecords = (id) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllRecords(id);
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.FETCH_ALL_RECORDS_SUCCESS,
+                    dataRe: res.data
+                })
+            } else {
+                dispatch({
+                    type: actionTypes.FETCH_ALL_RECORDS_FAILED
+                })
+            }
+        } catch (e) {
+            console.log('FETCH_ALL_RECORDS_FAILED: ', e)
+            dispatch({
+                type: actionTypes.FETCH_ALL_RECORDS_FAILED
+            })
+        }
+    }
+}
+
+export const fetchAllHistories = (id) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllHistory(id);
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.FETCH_ALL_HISTORY_SUCCESS,
+                    dataHi: res.data
+                })
+            } else {
+                dispatch({
+                    type: actionTypes.FETCH_ALL_HISTORY_FAILED
+                })
+            }
+        } catch (e) {
+            console.log('FETCH_ALL_HISTORY_FAILED: ', e)
+            dispatch({
+                type: actionTypes.FETCH_ALL_HISTORY_FAILED
+            })
+        }
+    }
+}
+
+export const deleteARecord = (userId) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await deleteRecord(userId);
+            if (res && res.errCode === 0) {
+                toast.success("Delete the record succeed!")
+                dispatch(deleteRecordSuccess())
+                dispatch(fetchAllRecords())
+            } else {
+                toast.error("Delete the record error!")
+                dispatch(deleteRecordFailed());
+            }
+        } catch (e) {
+            toast.error("Delete the record error!")
+            dispatch(deleteRecordFailed());
+            console.log('fetchRoleFailed error', e)
+        }
+    }
+}
+
+export const deleteRecordSuccess = () => ({
+    type: actionTypes.DELETE_RECORD_SUCCESS
+})
+
+export const deleteRecordFailed = () => ({
+    type: actionTypes.DELETE_RECORD_FAILED
 })
 

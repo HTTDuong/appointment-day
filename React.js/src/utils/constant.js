@@ -2,13 +2,17 @@ export const path = {
     HOME: '/',
     HOMEPAGE: '/home',
     LOGIN: '/login',
+    REGISTER: '/register',
     LOG_OUT: '/logout',
     SYSTEM: '/system',
+    DOCTOR: '/doctor',
     DETAIL_DOCTOR: '/detail-doctor/:id',
     DETAIL_SPECIALTY: '/detail-specialty/:id',
     DETAIL_CLINIC: '/detail-clinic/:id',
     DETAIL_HANDBOOK: '/detail-handbook/:id',
-    VERIFY_EMAIL_BOOKING: '/verify-booking'
+    VERIFY_EMAIL_BOOKING: '/verify-booking',
+    RECORD: '/user/record',
+    // USER_INFO: '/user/:type',
 };
 
 export const LANGUAGES = {

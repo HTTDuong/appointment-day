@@ -4,8 +4,11 @@ const handleLoginApi = (userEmail, userPassword) => {
     return axios.post('/api/login', { email: userEmail, password: userPassword });
 }
 
+const handleRegisterApi = (data) => {
+    return axios.post('/api/register', { data });
+}
+
 const getAllUsers = (inputId) => {
-    // template string
     return axios.get(`/api/get-all-users?id=${inputId}`)
 }
 
@@ -68,6 +71,14 @@ const postPatientBookingAppointment = (data) => {
 
 const postVerifyBookingAppointment = (data) => {
     return axios.post('/api/verify-book-appointment', data)
+}
+
+const addNewRecord = (data) => {
+    return axios.post('/api/patient-create-record', data)
+}
+
+const getAllRecords = (patientId) => {
+    return axios.get(`/api/get-all-records?patientId=${patientId}`)
 }
 
 const createNewSpectialty = (data) => {
@@ -138,6 +149,22 @@ const getAllDetailHandbookById = (data) => {
     return axios.get(`/api/get-detail-handbook-by-id?id=${data.id}`)
 }
 
+const saveHistory = (data) => {
+    return axios.post('/api/save-history', data)
+}
+
+const getAllHistory = (patientId) => {
+    return axios.get(`/api/get-list-history?patientId=${patientId}`)
+}
+
+const deleteRecord = (userId) => {
+    return axios.delete('/api/delete-record', {
+        data: {
+            id: userId
+        }
+    });
+}
+
 
 export {
     handleLoginApi, getAllUsers,
@@ -152,5 +179,6 @@ export {
     createNewClinic, getAllClinic, getAllDetailClinicById,
     createNewHandbook, getAllHandbook, getAllDetailHandbookById,
     getAllPatientForDoctor, postSendRemedy, editClinicService, deleteClinicData,
-    getAllPatient, deleteBookingPatient
+    getAllPatient, deleteBookingPatient, handleRegisterApi, addNewRecord,
+    getAllRecords, saveHistory, getAllHistory, deleteRecord
 }

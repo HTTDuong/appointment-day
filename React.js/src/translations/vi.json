@@ -83,7 +83,7 @@
             "hide-price": "Ẩn bảng giá"
         },
         "booking-modal": {
-            "title": "Thông tin đặt lịch khám bệnh",
+            "title": "Thông tin bệnh nhân khám bệnh",
             "fullName": "Họ và tên",
             "phoneNumber": "Số điện thoại",
             "email": "Email",

@@ -10,13 +10,8 @@ import HomeFooter from './HomeFooter';
 import './HomePage.scss';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { set } from 'lodash';
 
 class HomePage extends Component {
-
-    // handleAfterChange = (index, dontAnimate) => {
-
-    // }
 
     render() {
         let settings = {
@@ -25,18 +20,21 @@ class HomePage extends Component {
             speed: 500,
             slidesToShow: 4,
             slidesToScroll: 1,
-            // slickGoTo: this.handleAfterChange,
         };
+
+        const { isLoggedIn } = this.props;
 
         return (
             <div>
-                <HomeHeader isShowBanner={true}/>
-                <Specialty settings={settings}/>
-                <MedicalFacility settings={settings}/>
-                <OutStandingDoctor settings={settings}/>
-                <HandBook settings={settings}/>
-                <About/>
-                <HomeFooter/>
+                {/* {isLoggedIn ? <HomeHeader isShowBanner={true} checklogin={false} checklogout={true} /> : <HomeHeader isShowBanner={true} checklogin={true} checklogout={false} />} */}
+                {/* {console.log("check from homepage")} */}
+                <HomeHeader isShowBanner={true} />
+                <Specialty settings={settings} />
+                <MedicalFacility settings={settings} />
+                <OutStandingDoctor settings={settings} />
+                <HandBook settings={settings} />
+                <About />
+                <HomeFooter />
             </div>
         );
     }

@@ -8,6 +8,7 @@ import { LANGUAGES } from '../../../utils';
 import { getScheduleDoctorByDate } from '../../../services/userService'
 import { FormattedMessage } from 'react-intl';
 import BookingModal from './Modal/BookingModal';
+import { toast } from 'react-toastify';
 
 class DoctorSchedule extends Component {
 
@@ -100,10 +101,16 @@ class DoctorSchedule extends Component {
     }
 
     handleClickScheduleTime = (time) => {
-        this.setState({
-            isOpenModalBooking: true,
-            dataScheduleTimeModal: time
-        })
+        console.log("checkkkkkkkk", time)
+        if (time.currentNumber < time.maxNumber) {
+            this.setState({
+                isOpenModalBooking: true,
+                dataScheduleTimeModal: time
+            })
+        } else {
+            toast.error('Khoảng thời gian này đã full. Vui lòng chọn khoảng thời gian khác!');
+            return;
+        }
     }
 
     closeBookingModal = () => {

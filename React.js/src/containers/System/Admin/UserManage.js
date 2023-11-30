@@ -157,6 +157,7 @@ class UserManage extends Component {
                                         </tr>
                                         {dataPatient && dataPatient.length > 0 ?
                                             dataPatient.map((item, index) => {
+                                                console.log('check item', item)
                                                 let dateCreated = new Date(item.createdAt);
                                                 dateCreated = moment(dateCreated).format('DD/MM/YYYY')
                                                 let time = language === LANGUAGES.VI ?
@@ -164,14 +165,14 @@ class UserManage extends Component {
                                                 let status = language === LANGUAGES.VI ?
                                                     item.statusTypeDataPatient.valueVi : item.statusTypeDataPatient.valueEn;
                                                 let gender = language === LANGUAGES.VI ?
-                                                    item.patientData.genderData.valueVi : item.patientData.genderData.valueEn
+                                                    item.recordIdTypeData.genderDataRecord.valueVi : item.recordIdTypeData.genderDataRecord.valueEn
                                                 return (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{dateCreated}</td>
-                                                        <td>{item.patientData.firstName}</td>
+                                                        <td>{item.recordIdTypeData.fullName}</td>
                                                         <td>{time}</td>
-                                                        <td>{item.patientData.address}</td>
+                                                        <td>{item.recordIdTypeData.address}</td>
                                                         <td>{gender}</td>
                                                         <td>{status}</td>
                                                         <td>
@@ -183,7 +184,7 @@ class UserManage extends Component {
                                                             <button className='mp-btn-confirm'
                                                                 onClick={() => this.handleBtnCancel(item)}
                                                             >
-                                                                Hủy
+                                                                Xóa
                                                             </button>
                                                         </td>
                                                     </tr>

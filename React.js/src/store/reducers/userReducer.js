@@ -19,6 +19,18 @@ const appReducer = (state = initialState, action) => {
                 isLoggedIn: false,
                 userInfo: null
             }
+        case actionTypes.USER_REGISTER_SUCCESS:
+            return {
+                ...state,
+                isLoggedIn: true,
+                userInfo: action.userInfo
+            }
+        case actionTypes.USER_REGISTER_FAIL:
+            return {
+                ...state,
+                isLoggedIn: false,
+                userInfo: null
+            }
         case actionTypes.PROCESS_LOGOUT:
             return {
                 ...state,

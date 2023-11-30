@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import './ManagePatient.scss';
 import DatePicker from '../../../components/Input/DatePicker';
-import { getAllPatientForDoctor, postSendRemedy } from '../../../services/userService';
+import { getAllPatientForDoctor, postSendRemedy, saveHistory } from '../../../services/userService';
 import moment from 'moment';
 import { LANGUAGES } from '../../../utils';
 import RemedyModal from './RemedyModal';
@@ -36,6 +36,7 @@ class ManagePatient extends Component {
             doctorId: user.id,
             date: formattedDate
         })
+        console.log("check patient", res)
         if (res && res.errCode === 0) {
             this.setState({
                 dataPatient: res.data
@@ -62,10 +63,16 @@ class ManagePatient extends Component {
         let data = {
             doctorId: item.doctorId,
             patientId: item.patientId,
+            recordId: item.recordId,
+            date: item.date,
             email: item.patientData.email,
             timeType: item.timeType,
-            patientName: item.patientData.firstName
+            patientName: item.recordIdTypeData.fullName,
+            address: item.recordIdTypeData.address,
+            phoneNumber: item.recordIdTypeData.phoneNumber,
+            gender: item.recordIdTypeData.gender
         }
+        console.log("check data", item)
 
         this.setState({
             isOpenRemedyModal: true,
@@ -85,12 +92,14 @@ class ManagePatient extends Component {
         this.setState({
             isShowLoading: true
         })
+        console.log("check dataModal: ", dataModal)
 
         let res = await postSendRemedy({
             email: dataChild.email,
             imgBase64: dataChild.imgBase64,
             doctorId: dataModal.doctorId,
             patientId: dataModal.patientId,
+            recordId: dataModal.recordId,
             timeType: dataModal.timeType,
             language: this.props.language,
             patientName: dataModal.patientName
@@ -100,6 +109,19 @@ class ManagePatient extends Component {
             this.setState({
                 isShowLoading: false
             })
+
+            await saveHistory({
+                patientId: dataModal.patientId,
+                doctorId: dataModal.doctorId,
+                recordId: dataModal.recordId,
+                date: dataModal.date,
+                files: dataChild.imgBase64,
+                fullName: dataModal.patientName,
+                address: dataModal.address,
+                phoneNumber: dataModal.phoneNumber,
+                gender: dataModal.gender,
+            })
+
             toast.success('Send Remedy succeeds');
             this.closeRemedyModal();
             await this.getDataPatient();
@@ -120,8 +142,6 @@ class ManagePatient extends Component {
     render() {
         let { dataPatient, isOpenRemedyModal, dataModal } = this.state;
         let { language } = this.props;
-        // console.log("thuyduong ", dataPatient)
-        console.log(this.props)
 
         return (
             <>
@@ -159,13 +179,13 @@ class ManagePatient extends Component {
                                                 let time = language === LANGUAGES.VI ?
                                                     item.timeTypeDataPatient.valueVi : item.timeTypeDataPatient.valueEn;
                                                 let gender = language === LANGUAGES.VI ?
-                                                    item.patientData.genderData.valueVi : item.patientData.genderData.valueEn
+                                                    item.recordIdTypeData.genderDataRecord.valueVi : item.recordIdTypeData.genderDataRecord.valueEn
                                                 return (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{time}</td>
-                                                        <td>{item.patientData.firstName}</td>
-                                                        <td>{item.patientData.address}</td>
+                                                        <td>{item.recordIdTypeData.fullName}</td>
+                                                        <td>{item.recordIdTypeData.address}</td>
                                                         <td>{gender}</td>
                                                         <td>
                                                             <button className='mp-btn-confirm'

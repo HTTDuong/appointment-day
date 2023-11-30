@@ -83,7 +83,7 @@
             "hide-price": "Hide price list"
         },
         "booking-modal": {
-            "title": "Information to book a medical appointment",
+            "title": "Information on medical examination patients",
             "fullName": "Fullname",
             "phoneNumber": "Phone number",
             "email": "Email",

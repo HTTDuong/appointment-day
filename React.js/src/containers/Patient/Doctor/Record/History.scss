@@ -1,0 +1,58 @@
+.all-histories {
+    .section-info {
+        margin-bottom: 30px;
+        margin-left: 90px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+        border-radius: 20px;
+        width: 900px;
+        height: 265px;
+        background-color: #fff;
+        display: flex;
+
+        .customize-info-left {
+            width: 70%;
+
+            .user-item {
+                margin: 20px;
+                display: flex;
+
+                .user-item-left {
+                    margin-right: 10px;
+
+                    i {
+                        margin-right: 10px;
+                    }
+                }
+
+                .user-item-right {}
+            }
+        }
+
+        .customize-info-right {
+            width: 30%;
+            margin: 20px;
+
+            .user-item {
+
+                .user-item-left {
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+
+                    i {
+                        margin-right: 10px;
+                    }
+                }
+
+                .preview-image {
+                    height: 200px;
+                    width: 100%;
+                    border: 1px solid #ddd;
+                    background: center center no-repeat;
+                    background-size: contain;
+                    cursor: pointer;
+
+                }
+            }
+        }
+    }
+}
