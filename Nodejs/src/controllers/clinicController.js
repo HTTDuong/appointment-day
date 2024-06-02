@@ -37,13 +37,11 @@ let getDetailClinicById = async (req, res) => {
         })
     }
 }
-
 let updateClinicData = async (req, res) => {
     let data = req.body;
     let message = await clinicService.updateClinicData(data);
     return res.status(200).json(message);
 }
-
 let deleteClinicData = async (req, res) => {
     console.log(req.body)
     if (!req.body.id) {

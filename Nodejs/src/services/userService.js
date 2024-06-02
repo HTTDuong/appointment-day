@@ -99,7 +99,7 @@ let getAllUsers = (userId) => {
             if (userId === 'ALL') {
                 users = await db.User.findAll({
                     attributes: {
-                        exclude: ['password']
+                        exclude: ['password', 'image']
                     },
                     include: [
                         {
@@ -223,11 +223,6 @@ let updateUserData = (data) => {
                 }
 
                 await user.save();
-                // await db.User.save({
-                //     firstName: data.firstName,
-                //     lastName: data.lastName,
-                //     address: data.address,
-                // })
 
                 resolve({
                     errCode: 0,

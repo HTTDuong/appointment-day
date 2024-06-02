@@ -17,26 +17,11 @@ let postBookAppointment = (data) => {
                     errMessage: 'Missing required param!'
                 })
             } else {
-                let token = uuidv4();
-                await emailService.sendSimpleEmail({
-                    recieverEmail: data.email,
-                    patientName: data.fullName,
-                    time: data.timeString,
-                    doctorName: data.doctorName,
-                    language: data.language,
-                    redirectLink: buildUrlEmail(data.doctorId, token)
-                })
 
                 //upsert patient - false: exist
                 let user = await db.Record.findOne({
                     where: { id: data.recordId }
                 });
-
-                // // update patient and check history
-                // if (!user[1]) {
-                //     user[0].gender = data.selectedGender;
-                //     user[0].address = data.address;
-                //     user[0].firstName = data.fullName
 
                 let appointment = await db.Booking.findAll({
                     where: {
@@ -45,50 +30,41 @@ let postBookAppointment = (data) => {
                     },
                     raw: false
                 })
+
                 if (appointment && appointment.length > 0) {
                     resolve({
                         data: user,
-                        errCode: 0,
-                        errMessage: 'This profile has incomplete appointments. Please complete before scheduling another appointment.!'
+                        errCode: 2,
+                        errMessage: 'Bệnh nhân có lịch hẹn chưa hoàn thành. Vui lòng hoàn tất lịch hẹn trước khi đặt lịch mới!'
                     })
                 } else {
-                    await db.Booking.create({
+                    let token = uuidv4();
+                    await emailService.sendSimpleEmail({
+                        recieverEmail: data.email,
+                        patientName: data.fullName,
+                        time: data.timeString,
+                        doctorName: data.doctorName,
+                        language: data.language,
+                        redirectLink: buildUrlEmail(data.doctorId, token)
+                    })
+
+                    let bookingData = await db.Booking.create({
                         statusId: 'S1',
                         doctorId: data.doctorId,
                         patientId: data.patientId,
                         recordId: data.recordId,
                         date: data.date,
                         timeType: data.timeType,
-                        token: token
+                        token: token,
+                        oldAppointmentId: ""
                     })
+
                     resolve({
-                        data: user,
+                        data: bookingData,
                         errCode: 0,
-                        errMessage: 'Save Infor user succeed!'
+                        errMessage: 'Save booking succeed!'
                     })
                 }
-
-                //create a booking record
-                // if (user && user[0]) {
-                //     await db.Booking.findOrCreate({
-                //         where: { patientId: user[0].id },
-                //         defaults: {
-                //             statusId: 'S1',
-                //             doctorId: data.doctorId,
-                //             patientId: user[0].id,
-                //             date: data.date,
-                //             timeType: data.timeType,
-                //             token: token
-                //         }
-
-                //     })
-                // }
-
-                // resolve({
-                //     data: user,
-                //     errCode: 0,
-                //     errMessage: 'Save Infor user succeed!  '
-                // })
             }
         } catch (error) {
             reject(error);
@@ -227,11 +203,41 @@ let deleteRecord = (userId) => {
     })
 }
 
+let getPatientNumber = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required param!'
+                })
+            } else {
+                let schedules = await db.Schedule.findOne({
+                    where: {
+                        doctorId: data.doctorId,
+                        timeType: data.timeType,
+                        date: data.date
+                    }
+                })
+                resolve({
+                    errCode: 0,
+                    data: schedules
+                })
+            }
+
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+
 module.exports = {
     postBookAppointment: postBookAppointment,
     buildUrlEmail: buildUrlEmail,
     postVerifyBookAppointment: postVerifyBookAppointment,
     addNewRecord: addNewRecord,
     getAllRecords: getAllRecords,
-    deleteRecord: deleteRecord
+    deleteRecord: deleteRecord,
+    getPatientNumber: getPatientNumber
 }

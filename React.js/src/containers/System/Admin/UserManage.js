@@ -176,15 +176,11 @@ class UserManage extends Component {
                                                         <td>{gender}</td>
                                                         <td>{status}</td>
                                                         <td>
-                                                            {/* <button className='mp-btn-confirm'
-                                                                onClick={() => this.handleBtnConfirm(item)}
-                                                            >
-                                                                Xác nhận
-                                                            </button> */}
                                                             <button className='mp-btn-confirm'
                                                                 onClick={() => this.handleBtnCancel(item)}
+                                                                disabled={status === "Đã khám xong" ? true : false}
                                                             >
-                                                                Xóa
+                                                                Hủy
                                                             </button>
                                                         </td>
                                                     </tr>

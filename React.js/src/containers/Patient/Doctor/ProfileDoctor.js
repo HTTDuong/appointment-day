@@ -47,7 +47,6 @@ class ProfileDoctor extends Component {
                 dataProfile: data,
             });
         }
-
     }
 
     renderTimeBooking = (dataTime) => {
@@ -73,7 +72,7 @@ class ProfileDoctor extends Component {
         let { dataProfile } = this.state;
         let { language, isShowDescriptionDoctor, dataTime,
             isShowLinkDetail, isShowPrice, doctorId } = this.props;
-        // console.log(doctorId)
+
         let nameVi = '', nameEn = '';
         if (dataProfile && dataProfile.positionData) {
             nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;

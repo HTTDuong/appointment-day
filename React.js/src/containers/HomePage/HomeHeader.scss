@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 .home-header-container {
     height: 60px;
     width: 100%;
@@ -92,7 +94,7 @@
                 opacity: 0.2;
 
                 &.active {
-                    color: blue;
+                    color: #007b4e;
                     opacity: 1;
                 }
 
@@ -105,8 +107,7 @@
 }
 
 .home-header-banner {
-    // background: url('../../assets/home_intro1_2022-04-13-100108_szxi.f1690468945.svg');
-    height: 930px;
+    height: 750px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -116,66 +117,41 @@
     background-color: #E6EEF0;
 
     .content-up {
-        height: 65%;
+        height: 60%;
         padding-top: 15px;
         display: flex;
-
         justify-content: center;
-        // align-items: center;
         margin-top: 100px;
 
-        .all-title {
-            width: fit-content;
-            height: fit-content;
-            // background-color: #54AB9A;
-            // box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-            // border-radius: 20px;
-            // border: 2px solid rgba(255, 255, 255, .2);
-            padding: 50px;
-            // font-family: Caveat, cursive !important;
-            font-family: OCR A Std, monospace !important;
+        .content-up-left {
+            width: 40%;
+            font-size: 4rem;
+            margin-top: 5rem;
+            font-family: 'Lora', serif;
 
-            .title1 {
+            .title-content-up-left {
+                font-weight: 600;
+                font-size: 4rem;
                 text-align: center;
-                font-size: 30px;
-                text-shadow: 1px 1px 1px #333;
-                margin-bottom: 8px;
-                color: #54AB9A;
+                color: #004D49;
             }
 
-            .title2 {
-                text-align: center;
-                font-size: 30px;
-                text-shadow: 1px 1px 1px #333;
-                color: #54AB9A;
-                margin-bottom: 15px;
-            }
-
-            .search {
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                margin: 0 auto;
-                align-items: center;
-                padding: 10px;
+            .all-content {
                 width: fit-content;
-                border-radius: 25px;
-                background: white;
+                height: fit-content;
+                padding: 50px;
+                padding-top: 0;
+                margin: auto;
+                color: #088567;
 
-                i {
-                    margin: 0 5px;
+                .rotating-services {
+                    text-align: center;
+
                 }
 
-                input {
-                    height: 30px;
-                    width: 360px;
-                    background: transparent;
-                    border: none;
-                    outline: none;
-                }
             }
-
         }
+
     }
 
     .content-down {
@@ -230,4 +206,16 @@
         }
     }
 
+}
+
+@keyframes slide-out {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

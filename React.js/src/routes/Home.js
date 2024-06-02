@@ -18,20 +18,14 @@ class Home extends Component {
 
     render() {
         const { isLoggedIn, userInfo } = this.props;
-        let linkToRedirect;
+        let linkToRedirect = '/home';
         if (isLoggedIn) {
             if (userInfo.roleId === 'R1') {
                 linkToRedirect = '/system/user-manage'
             }
             if (userInfo.roleId === 'R2') {
-                linkToRedirect = '/doctor/manage-schedule'
+                linkToRedirect = '/doctor/manage-patient'
             }
-            if (userInfo.roleId === 'R3') {
-                linkToRedirect = '/home'
-            }
-        } else {
-            console.log("check login")
-            linkToRedirect = '/login'
         }
 
         return (

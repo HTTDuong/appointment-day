@@ -5,10 +5,29 @@ import viewEngine from "./config/viewEngine";
 import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
 // import cors from 'cors';
+import swaggerjsdoc from "swagger-jsdoc"
+import swaggerui from "swagger-ui-express"
 
 require('dotenv').config();
 
 let app = express();
+
+const options = {
+    swaggerDefinition: {
+        openapi: "3.0.0",
+        info: {
+            title: "Appointmen Booking api doc",
+            version: "0.1",
+            servers: ["http://localhost:8080"]
+        },
+        schemes: ['http', 'https'],
+    },
+    apis: ["./src/route/web.js"]
+}
+
+//config swagger
+const spacs = swaggerjsdoc(options)
+
 
 // app.use(cors({ origin: true}));
 // Add headers before the routes are defined
@@ -30,18 +49,19 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
-
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+app.use("/api-docs", swaggerui.serve, swaggerui.setup(spacs))
 
 viewEngine(app);
 initWebRoutes(app);
 
 connectDB();
 
-let port = process.env.PORT || 6969; 
+let port = process.env.PORT || 6969;
 
 app.listen(port, () => {
     console.log("Backend Nodejs is running on the port: " + port)

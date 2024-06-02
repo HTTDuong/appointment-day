@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import HomeHeader from './HomeHeader';
 import Specialty from './Section/Specialty';
 import MedicalFacility from './Section/MedicalFacility';
@@ -26,8 +27,6 @@ class HomePage extends Component {
 
         return (
             <div>
-                {/* {isLoggedIn ? <HomeHeader isShowBanner={true} checklogin={false} checklogout={true} /> : <HomeHeader isShowBanner={true} checklogin={true} checklogout={false} />} */}
-                {/* {console.log("check from homepage")} */}
                 <HomeHeader isShowBanner={true} />
                 <Specialty settings={settings} />
                 <MedicalFacility settings={settings} />
@@ -41,9 +40,9 @@ class HomePage extends Component {
 
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
     };
 };
 

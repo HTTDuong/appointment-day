@@ -5,15 +5,11 @@ import './BookingModal.scss';
 import { Modal } from 'reactstrap';
 import ProfileDoctor from '../ProfileDoctor';
 import _ from 'lodash';
-import DatePicker from '../../../../components/Input/DatePicker';
 import * as actions from '../../../../store/actions'
 import { LANGUAGES } from '../../../../utils';
-import Select from 'react-select';
-import { postPatientBookingAppointment } from '../../../../services/userService'
+import { postPatientBookingAppointment, postPaymentMomo, postPaymentMomoResult } from '../../../../services/userService'
 import { toast } from 'react-toastify';
 import moment from 'moment';
-import Record from '../Record/Record';
-import { getAllRecords } from '../../../../services/userService';
 import LoadingOverlay from 'react-loading-overlay';
 
 class BookingModal extends Component {
@@ -24,7 +20,8 @@ class BookingModal extends Component {
             doctorId: '',
             timeType: '',
             arrRecords: [],
-            isShowLoading: false
+            isShowLoading: false,
+            doctorAmount: '',
         }
     }
 
@@ -51,7 +48,6 @@ class BookingModal extends Component {
                 })
             }
         }
-
     }
 
     handleConfirmBooking = async (item) => {
@@ -78,7 +74,15 @@ class BookingModal extends Component {
             this.setState({
                 isShowLoading: false
             })
+
             toast.success('Booking a new appointment succeed!');
+            this.props.closeBookingModal();
+
+        } else if (res && res.errCode === 2) {
+            this.setState({
+                isShowLoading: false
+            })
+            toast.success(res.errMessage);
             this.props.closeBookingModal();
         } else {
             this.setState({
@@ -150,6 +154,7 @@ class BookingModal extends Component {
                                     dataTime={dataTime}
                                     isShowLinkDetail={false}
                                     isShowPrice={true}
+                                    onProfileDataReceived={this.onProfileDataReceived}
                                 />
                             </div>
                             <div className='row'>

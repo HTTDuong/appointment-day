@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import './DoctorSchedule.scss';
-import Select from 'react-select';
 import moment from 'moment/moment';
-import localization from 'moment/locale/vi';
 import { LANGUAGES } from '../../../utils';
-import { getScheduleDoctorByDate } from '../../../services/userService'
+import { getScheduleDoctorByDate, postPatientNumber } from '../../../services/userService'
 import { FormattedMessage } from 'react-intl';
 import BookingModal from './Modal/BookingModal';
 import { toast } from 'react-toastify';
@@ -100,15 +98,15 @@ class DoctorSchedule extends Component {
         }
     }
 
-    handleClickScheduleTime = (time) => {
-        console.log("checkkkkkkkk", time)
-        if (time.currentNumber < time.maxNumber) {
+    handleClickScheduleTime = async (time) => {
+        let dataSchedule = await postPatientNumber(time);
+        if (dataSchedule.data.currentNumber < dataSchedule.data.maxNumber) {
             this.setState({
                 isOpenModalBooking: true,
                 dataScheduleTimeModal: time
             })
         } else {
-            toast.error('Khoảng thời gian này đã full. Vui lòng chọn khoảng thời gian khác!');
+            toast.error('Không còn chỗ trống. Vui lòng chọn khoảng thời gian khác!');
             return;
         }
     }

@@ -7,9 +7,40 @@ import { LANGUAGES } from '../../utils';
 import banner from '../../assets/home_intro1_2022-04-13-100108_szxi.f1690468945.svg';
 import { changeLanguageApp } from '../../store/actions';
 import { withRouter } from 'react-router';
-import { Redirect } from 'react-router-dom';
 
 class HomeHeader extends Component {
+
+    state = {
+        visibleSpanIndex: 0
+    };
+
+    componentDidMount() {
+        this.showNextSpan();
+    }
+
+    showNextSpan = () => {
+        const spans = document.querySelectorAll('.all-content span');
+        const totalSpans = spans.length;
+
+        if (totalSpans === 0) {
+            return;
+        }
+
+        spans.forEach(span => {
+            span.style.display = 'none';
+        });
+
+        const { visibleSpanIndex } = this.state;
+        const nextIndex = (visibleSpanIndex + 1) % totalSpans;
+        if (nextIndex >= 0 && nextIndex < totalSpans) {
+            spans[nextIndex].style.display = 'inline-block';
+            spans[nextIndex].style.animation = 'slide-out 3s';
+            this.setState({ visibleSpanIndex: nextIndex });
+        }
+
+        // Schedule the next span to appear after 2 seconds
+        setTimeout(this.showNextSpan, 3000);
+    };
 
     changeLanguage = (language) => {
         //fire redux event: actions
@@ -110,7 +141,7 @@ class HomeHeader extends Component {
                             </div>
                             {/* {this.props.checklogout && */}
                             <div className="btn" title='user' onClick={() => this.handleUserRecord(userInfo)}>
-                                <i class="fas fa-user"></i>
+                                <i className="fas fa-user"></i>
                             </div>
                             <div className="btn btn-logout" onClick={processLogout} title='Log out'>
                                 <i className="fas fa-sign-out-alt"></i>
@@ -122,12 +153,17 @@ class HomeHeader extends Component {
                 {this.props.isShowBanner === true &&
                     <div className='home-header-banner'>
                         <div className='content-up'>
-                            <div className='all-title'>
-                                <div className='title1'><FormattedMessage id="banner.title1" /></div>
-                                <div className='title2'><FormattedMessage id="banner.title2" /></div>
-                                <div className='search'>
-                                    <i className="fas fa-search"></i>
-                                    <input type='text' placeholder='Search' />
+                            <div className='content-up-left'>
+                                <h2 className='title-content-up-left'>Get care today for</h2>
+                                <div className='all-content'>
+                                    <span className="rotating-services is-hidden">anxiety</span>
+                                    <span className="rotating-services is-hidden">depression</span>
+                                    <span className="rotating-services is-hidden">sleep issues</span>
+                                    <span className="rotating-services is-hidden">weight issues</span>
+                                    <span className="rotating-services is-hidden">cancer screening</span>
+                                    <span className="rotating-services is-hidden">sexual health</span>
+                                    <span className="rotating-services is-hidden">LGBTQIA+ health</span>
+                                    <span className="rotating-services is-hidden">COVID-19 concerns</span>
                                 </div>
                             </div>
                             <img className='header-img' src={banner} />

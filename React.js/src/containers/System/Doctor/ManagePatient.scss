@@ -52,5 +52,11 @@ div._loading_overlay_wrapper {
                 background: #39dca0;
             }
         }
+
+        .paginate {
+            display: flex;
+            justify-content: end;
+            margin-top: 20px;
+        }
     }
 }

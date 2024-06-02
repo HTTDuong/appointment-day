@@ -14,6 +14,9 @@ module.exports = {
       doctorId: {
         type: Sequelize.INTEGER
       },
+      recordId: {
+        type: Sequelize.INTEGER
+      },
       date: {
         type: Sequelize.STRING
       },
@@ -31,6 +34,9 @@ module.exports = {
       },
       gender: {
         type: Sequelize.STRING
+      },
+      bookingId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

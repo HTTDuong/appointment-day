@@ -239,6 +239,7 @@ let bulkCreateSchedule = (data) => {
                     errMessage: 'Missing required param!'
                 })
             } else {
+                console.log("check", data)
                 let schedule = data.arrSchedule;
                 if (schedule && schedule.length > 0) {
                     schedule = schedule.map(item => {
@@ -254,14 +255,6 @@ let bulkCreateSchedule = (data) => {
                     attributes: ['timeType', 'date', 'doctorId', 'maxNumber'],
                     raw: true
                 });
-
-                // CONVERT DATE
-                // if (existing && existing.length > 0) {
-                //     existing = existing.map(item => {
-                //         item.date = new Date(item.date).getTime();
-                //         return item;
-                //     })
-                // }
 
                 // COMPARE DIFFERENT 
                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {
@@ -435,7 +428,7 @@ let getListPatientForDoctor = (doctorId, date) => {
             } else {
                 let data = await db.Booking.findAll({
                     where: {
-                        statusId: 'S2',
+                        statusId: ['S2', 'S3'],
                         doctorId: doctorId,
                         date: date
                     },
@@ -608,6 +601,7 @@ let saveHistory = (data) => {
                 address: data.address,
                 phoneNumber: data.phoneNumber,
                 gender: data.gender,
+                bookingId: data.bookingId,
             })
             resolve({
                 errCode: 0,
@@ -657,6 +651,163 @@ let getListHistory = (patientId) => {
     })
 }
 
+let postBookingRecurrence = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.recordId || !data.doctorId || !data.date || !data.timeType) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required param!'
+                })
+            } else {
+                if (data.oldAppointmentId) {
+                    let bookData = await db.Booking.create({
+                        statusId: 'S2',
+                        doctorId: data.doctorId,
+                        patientId: data.patientId,
+                        recordId: data.recordId,
+                        date: data.date,
+                        timeType: data.timeType,
+                        oldAppointmentId: data.oldAppointmentId
+                    })
+                    let scheduleApp = await db.Schedule.findOne({
+                        where: {
+                            doctorId: data.doctorId,
+                            date: data.date,
+                            timeType: data.timeType
+                        },
+                        raw: false
+                    })
+                    scheduleApp.currentNumber = scheduleApp.currentNumber + 1;
+                    await scheduleApp.save();
+                    resolve({
+                        data: bookData,
+                        errCode: 0,
+                        errMessage: 'Save Infor user succeed!'
+                    })
+                } else {
+                    let bookData = await db.Booking.create({
+                        statusId: 'S2',
+                        doctorId: data.doctorId,
+                        patientId: data.patientId,
+                        recordId: data.recordId,
+                        date: data.date,
+                        timeType: data.timeType,
+                        oldAppointmentId: data.bookingRecurr
+                    })
+                    let scheduleApp = await db.Schedule.findOne({
+                        where: {
+                            doctorId: data.doctorId,
+                            date: data.date,
+                            timeType: data.timeType
+                        },
+                        raw: false
+                    })
+                    scheduleApp.currentNumber = scheduleApp.currentNumber + 1;
+                    await scheduleApp.save();
+                    resolve({
+                        data: bookData,
+                        errCode: 0,
+                        errMessage: 'Save Infor user succeed!'
+                    })
+                }
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+let postDetailRecurrence = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required param!'
+                })
+            } else {
+
+                if (!data.oldAppointmentId) {
+                    let bookOriginal = await db.Booking.findOne({
+                        where: { id: data.id, statusId: 'S3' },
+                        include: [
+                            {
+                                model: db.History,
+                            }
+                        ],
+                        raw: true,
+                        nest: true
+                    });
+
+                    if (!bookOriginal.History.id) {
+                        resolve({
+                            data: [],
+                            errCode: 1,
+                            errMessage: 'Missing required param!'
+                        })
+                    }
+
+                    let bookData = await db.Booking.findAll({
+                        where: { oldAppointmentId: data.id, statusId: 'S3' },
+                        include: [
+                            {
+                                model: db.History,
+                            }
+                        ],
+                        raw: true,
+                        nest: true
+                    });
+
+                    let result = [bookOriginal, ...bookData];
+
+                    // console.log("check result: ", result);
+
+                    resolve({
+                        data: result,
+                        errCode: 0,
+                        errMessage: 'Save Infor user succeed!'
+                    })
+                }
+
+                if (data.oldAppointmentId) {
+                    let bookOriginal = await db.Booking.findOne({
+                        where: { id: data.oldAppointmentId, statusId: 'S3' },
+                        include: [
+                            {
+                                model: db.History,
+                            }
+                        ],
+                        raw: true,
+                        nest: true
+                    });
+                    let bookData = await db.Booking.findAll({
+                        where: { oldAppointmentId: data.oldAppointmentId, statusId: 'S3' },
+                        include: [
+                            {
+                                model: db.History,
+                            }
+                        ],
+                        raw: true,
+                        nest: true
+                    });
+
+                    let result = [bookOriginal, ...bookData];
+
+                    resolve({
+                        data: result,
+                        errCode: 0,
+                        errMessage: 'Save Infor user succeed!'
+                    })
+                }
+
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -671,5 +822,7 @@ module.exports = {
     getListPatient: getListPatient,
     deleteBookingPatient: deleteBookingPatient,
     saveHistory: saveHistory,
-    getListHistory: getListHistory
+    getListHistory: getListHistory,
+    postBookingRecurrence: postBookingRecurrence,
+    postDetailRecurrence: postDetailRecurrence
 }

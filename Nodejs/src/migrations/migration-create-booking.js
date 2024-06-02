@@ -29,6 +29,9 @@ module.exports = {
       token: {
         type: Sequelize.STRING
       },
+      oldAppointmentId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

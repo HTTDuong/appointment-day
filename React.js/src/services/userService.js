@@ -165,6 +165,18 @@ const deleteRecord = (userId) => {
     });
 }
 
+const postBookingRecurrence = (data) => {
+    return axios.post('/api/post-booking-recurrence', data)
+}
+
+const postDetailRecurrence = (data) => {
+    return axios.post('/api/post-detail-recurrence', data)
+}
+
+const postPatientNumber = (data) => {
+    return axios.post('/api/post-patient-number', data)
+}
+
 
 export {
     handleLoginApi, getAllUsers,
@@ -180,5 +192,6 @@ export {
     createNewHandbook, getAllHandbook, getAllDetailHandbookById,
     getAllPatientForDoctor, postSendRemedy, editClinicService, deleteClinicData,
     getAllPatient, deleteBookingPatient, handleRegisterApi, addNewRecord,
-    getAllRecords, saveHistory, getAllHistory, deleteRecord
+    getAllRecords, saveHistory, getAllHistory, deleteRecord, postBookingRecurrence, postDetailRecurrence,
+    postPatientNumber
 }

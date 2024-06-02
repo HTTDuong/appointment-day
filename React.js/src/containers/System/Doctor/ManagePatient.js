@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { FormattedMessage } from 'react-intl';
 import './ManagePatient.scss';
 import DatePicker from '../../../components/Input/DatePicker';
 import { getAllPatientForDoctor, postSendRemedy, saveHistory } from '../../../services/userService';
@@ -9,6 +8,9 @@ import { LANGUAGES } from '../../../utils';
 import RemedyModal from './RemedyModal';
 import { toast } from 'react-toastify';
 import LoadingOverlay from 'react-loading-overlay';
+import DoctorSchedule from './DoctorSchedule';
+import DetailRecurrence from './DetailRecurrence';
+import ReactPaginate from 'react-paginate';
 
 class ManagePatient extends Component {
 
@@ -18,8 +20,13 @@ class ManagePatient extends Component {
             currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
             isOpenRemedyModal: false,
+            isOpenModalBooking: false,
+            isOpenModalDetail: false,
             dataModal: {},
-            isShowLoading: false
+            isShowLoading: false,
+            pageCount: 0,
+            currentPage: 0,
+            perPage: 5 // Số bản ghi hiển thị trên mỗi trang
         }
     }
 
@@ -36,7 +43,7 @@ class ManagePatient extends Component {
             doctorId: user.id,
             date: formattedDate
         })
-        console.log("check patient", res)
+
         if (res && res.errCode === 0) {
             this.setState({
                 dataPatient: res.data
@@ -45,8 +52,12 @@ class ManagePatient extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.language !== prevProps.language) {
-
+        if (this.props.language !== prevProps.language || this.state.dataPatient !== prevState.dataPatient) {
+            const { perPage } = this.state;
+            const pageCount = Math.ceil(this.state.dataPatient.length / perPage);
+            this.setState({
+                pageCount
+            });
         }
 
     }
@@ -60,6 +71,7 @@ class ManagePatient extends Component {
     }
 
     handleBtnConfirm = (item) => {
+        console.log("item", item)
         let data = {
             doctorId: item.doctorId,
             patientId: item.patientId,
@@ -70,7 +82,8 @@ class ManagePatient extends Component {
             patientName: item.recordIdTypeData.fullName,
             address: item.recordIdTypeData.address,
             phoneNumber: item.recordIdTypeData.phoneNumber,
-            gender: item.recordIdTypeData.gender
+            gender: item.recordIdTypeData.gender,
+            bookingId: item.id
         }
         console.log("check data", item)
 
@@ -89,10 +102,11 @@ class ManagePatient extends Component {
 
     sendRemedy = async (dataChild) => {
         let { dataModal } = this.state;
+        console.log("check data", dataChild)
+        console.log("check modal", dataModal)
         this.setState({
             isShowLoading: true
         })
-        console.log("check dataModal: ", dataModal)
 
         let res = await postSendRemedy({
             email: dataChild.email,
@@ -120,6 +134,7 @@ class ManagePatient extends Component {
                 address: dataModal.address,
                 phoneNumber: dataModal.phoneNumber,
                 gender: dataModal.gender,
+                bookingId: dataModal.bookingId
             })
 
             toast.success('Send Remedy succeeds');
@@ -138,10 +153,48 @@ class ManagePatient extends Component {
 
     }
 
+    handleBtnReExamination = (item) => {
+        this.setState({
+            isOpenModalBooking: true,
+            dataModal: item
+        })
+    }
+
+    updateDataPatient = async () => {
+        await this.getDataPatient();
+    };
+
+    handleDetail = (item) => {
+        this.setState({
+            isOpenModalDetail: true,
+            dataModal: item
+        })
+    }
+
+    closeBookingModal = () => {
+        this.setState({
+            isOpenModalBooking: false
+        })
+    }
+
+    closeDetailModal = () => {
+        this.setState({
+            isOpenModalDetail: false
+        })
+    }
+
+    handlePageClick = (data) => {
+        const selectedPage = data.selected;
+        this.setState({
+            currentPage: selectedPage
+        });
+    };
 
     render() {
-        let { dataPatient, isOpenRemedyModal, dataModal } = this.state;
-        let { language } = this.props;
+        let { dataPatient, isOpenRemedyModal, dataModal, isOpenModalBooking, isOpenModalDetail, currentPage, perPage } = this.state;
+        let { language, user } = this.props;
+        const offset = currentPage * perPage;
+        const currentData = dataPatient.slice(offset, offset + perPage);
 
         return (
             <>
@@ -172,10 +225,11 @@ class ManagePatient extends Component {
                                             <th>Họ và tên</th>
                                             <th>Địa chỉ</th>
                                             <th>Giới tính</th>
+                                            <th>Lịch sử khám</th>
                                             <th>Actions</th>
                                         </tr>
                                         {dataPatient && dataPatient.length > 0 ?
-                                            dataPatient.map((item, index) => {
+                                            currentData.map((item, index) => {
                                                 let time = language === LANGUAGES.VI ?
                                                     item.timeTypeDataPatient.valueVi : item.timeTypeDataPatient.valueEn;
                                                 let gender = language === LANGUAGES.VI ?
@@ -187,13 +241,30 @@ class ManagePatient extends Component {
                                                         <td>{item.recordIdTypeData.fullName}</td>
                                                         <td>{item.recordIdTypeData.address}</td>
                                                         <td>{gender}</td>
-                                                        <td>
-                                                            <button className='mp-btn-confirm'
-                                                                onClick={() => this.handleBtnConfirm(item)}
-                                                            >
-                                                                Xác nhận
-                                                            </button>
+                                                        <td onClick={() => this.handleDetail(item)}>
+                                                            <i className="fa fa-info-circle"></i> Chi tiết
                                                         </td>
+                                                        {item.statusId === "S2" ?
+                                                            <td>
+                                                                <button className='mp-btn-confirm'
+                                                                    onClick={() => this.handleBtnConfirm(item)}
+                                                                >
+                                                                    Xác nhận
+                                                                </button>
+                                                            </td>
+                                                            :
+                                                            <td>
+                                                                <button disabled={true} className='btn'>
+                                                                    Đã hoàn thành
+                                                                </button>
+                                                                <button className='btn btn-warning'
+                                                                    onClick={() => this.handleBtnReExamination(item)}
+                                                                >
+                                                                    Hẹn tái khám
+                                                                </button>
+                                                            </td>
+                                                        }
+
                                                     </tr>
                                                 )
                                             })
@@ -204,6 +275,29 @@ class ManagePatient extends Component {
                                         }
                                     </tbody>
                                 </table>
+
+                                <div className='paginate'>
+                                    <ReactPaginate
+                                        nextLabel={"> next"}
+                                        onPageChange={this.handlePageClick}
+                                        pageRangeDisplayed={5}
+                                        marginPagesDisplayed={2}
+                                        pageCount={this.state.pageCount}
+                                        previousLabel={"< previous"}
+                                        pageClassName="page-item"
+                                        pageLinkClassName="page-link"
+                                        previousClassName="page-item"
+                                        previousLinkClassName="page-link"
+                                        nextClassName="page-item"
+                                        nextLinkClassName="page-link"
+                                        breakLabel="..."
+                                        breakClassName="page-item"
+                                        breakLinkClassName="page-link"
+                                        containerClassName="pagination"
+                                        activeClassName="active"
+                                        renderOnZeroPageCount={null}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div >
@@ -212,6 +306,20 @@ class ManagePatient extends Component {
                         dataModal={dataModal}
                         closeRemedyModal={this.closeRemedyModal}
                         sendRemedy={this.sendRemedy}
+                    />
+
+                    <DoctorSchedule
+                        isOpenModal={isOpenModalBooking}
+                        closeBookingModal={this.closeBookingModal}
+                        doctorIdFromParent={user.id}
+                        dataModal={dataModal}
+                        updateDataPatient={this.updateDataPatient}
+                    />
+
+                    <DetailRecurrence
+                        isOpenModal={isOpenModalDetail}
+                        closeDetailModal={this.closeDetailModal}
+                        dataModal={dataModal}
                     />
 
                 </LoadingOverlay >
