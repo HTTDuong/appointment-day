@@ -12,6 +12,7 @@
 
 - Main page
 ![Alt text](img/dashboard.png)
+![Alt text](img/main1.png)
 
 - Specialty Detail
 ![Alt text](img/specialty-detail.png)
